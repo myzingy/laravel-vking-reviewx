@@ -181,7 +181,7 @@ return [
         Jenssegers\Rollbar\RollbarServiceProvider::class,
         Encore\Admin\Providers\AdminServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        
+
         Matriphe\Imageupload\ImageuploadServiceProvider::class,
 
     ],
@@ -234,6 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Entrust'    => Zizaco\Entrust\EntrustFacade::class,
+        'Imageupload' => Matriphe\Imageupload\ImageuploadFacade::class,
 
     ],
 

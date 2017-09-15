@@ -17,12 +17,12 @@
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
-                height: 100vh;
+                
                 margin: 0;
             }
 
             .full-height {
-                height: 100vh;
+
             }
 
             .flex-center {
@@ -43,6 +43,7 @@
 
             .content {
                 text-align: center;
+                width:90%;
             }
 
             .title {
@@ -72,7 +73,7 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        <a href="{{ url('/register') }}" onclick="onedayReview">Register</a>
                     @endif
                 </div>
             @endif
@@ -92,13 +93,26 @@
             page_url:location.href+'/jjj?a=b&b=c#masd',
             user_id:"",
             user_name:"",
-            view:"", //def list + form+
+            view:"",
         };
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = 'http://laravel.vking/js/iframe.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
+            ////
+            window.useOnedayReview=function(){
+                console.log("useOnedayReview...");
+                if(typeof onedayReview=='undefined'){
+                    console.log("useOnedayReview...");
+                    setTimeout("useOnedayReview()",500);
+                    return;
+                }
+                onedayReview(function(){
+                    console.log("..........");
+                });
+            };
+            useOnedayReview();
         })();
     </script>
     @endverbatim

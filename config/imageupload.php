@@ -14,7 +14,7 @@ return [
    *
    * Scale: 1-100;
    */
-  'quality' => env('IMAGEUPLOAD_QUALITY', 90),
+  'quality' => env('IMAGEUPLOAD_QUALITY', 100),
 
   /*
    * Upload directory. Make sure this is can be accessed by public and writable.
@@ -41,15 +41,15 @@ return [
    * array(width, height, squared), if square set to TRUE, image will be in square
    */
    'dimensions' => [
-        'square50' => [50, 50, true],
-        'square100' => [100, 100, true],
-        'square200' => [200, 200, true],
-        'square400' => [400, 400, true],
+        //'square50' => [50, 50, true],
+        //'square100' => [100, 100, true],
+        //'square200' => [200, 200, true],
+        //'square400' => [400, 400, true],
 
-        'size50' => [50, 50, false],
+        //'size50' => [50, 50, false],
         'size100' => [100, 100, false],
-        'size200' => [200, 200, false],
-        'size400' => [400, 400, false],
+        //'size200' => [200, 200, false],
+        //'size400' => [400, 400, false],
    ],
 
    /*

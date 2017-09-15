@@ -3,7 +3,7 @@
 @section('content-list')
     <el-row :gutter="20">
         <el-col>
-            <oneday-comment-list></oneday-comment-list>
+            <oneday-comment-list :param='{!! $data_json !!}'></oneday-comment-list>
         </el-col>
     </el-row>
 @endsection
@@ -13,7 +13,7 @@
 @section('content-form')
     <el-row :gutter="20">
         <el-col>
-            <oneday-comment-form></oneday-comment-form>
+            <oneday-comment-form :param='{!! $data_json !!}'></oneday-comment-form>
         </el-col>
     </el-row>
 @endsection

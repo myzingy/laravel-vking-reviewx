@@ -15,8 +15,8 @@
 </head>
 <body>
     <div id="app">
-        @yield('content-list')
         @yield('content-form')
+        @yield('content-list')
     </div>
 
     <!-- Scripts -->
