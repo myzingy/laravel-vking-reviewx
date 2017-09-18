@@ -70,7 +70,7 @@ class ReviewController extends Controller
                 $review->attr()->saveMany($attrs);
             }
         }
-        die(json_encode($review));
+        die(json_encode(['code'=>200]));
     }
     public function getReviews(){
         $data=Input::get();
@@ -93,6 +93,7 @@ class ReviewController extends Controller
             ->offset($data['offset']+0)
             ->limit($limit)
             ->get();
+        $total=0;
         if($data['offset']<$limit){
             $total=Review::where($where)->count();
         }

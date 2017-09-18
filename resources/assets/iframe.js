@@ -2,7 +2,7 @@
  * Created by vking on 2017/9/8.
  */
 (function($){
-    var base_url='http://laravel.vking/';
+    var base_url='https://laravel.vking/';
     var config={
         dom_id:"oneday_thread",
         appid:"",
@@ -30,6 +30,10 @@
         var OnMessage=function(e){
             console.log("OnMessage",e);
             if(typeof e.data.oneday !='undefined'){
+                if(e.data.oneday=='onedayReviewImg'){
+                    onedayReviewImg(e.data.params);
+                    return;
+                }
                 document.getElementById('dsq-app8967').height=e.data.height;
             }
         };
@@ -51,8 +55,22 @@
             js.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'oneday-review-jssdk'));
-
     }
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.href = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.css";
+        js.rel='stylesheet';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'link', 'oneday-viewer-css'));
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'oneday-viewer-jssdk'));
     window.onedayReview=function(fun){
         if(typeof jQuery=='undefined') {
             console.log('jquery on loading...');
@@ -74,4 +92,19 @@
             }
         });
     };
+    window.onedayReviewImg=function(data){
+        var $onedayReviewImg='<div id="onedayReviewImg" style="display: none;" ></div>';
+        if(jQuery('#onedayReviewImg').length<1){
+             jQuery('body').append($onedayReviewImg);
+        }else{
+            window.onedayReviewImgSDK.destroy();
+        }
+        var $imgs='';
+        for(var i in data){
+            $imgs+='<img src="'+data[i]+'" alt="">';
+        }
+        jQuery('#onedayReviewImg').html($imgs);
+        window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
+        window.onedayReviewImgSDK.show();
+    }
 })();

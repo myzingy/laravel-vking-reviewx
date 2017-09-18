@@ -15,7 +15,7 @@
     }
 </style>
 <template>
-    <div>
+    <div id="oneday-comment-form" v-show="showOnedayCommentForm">
         <div class="row" style=" ">
             <div class="col-md-8 col-md-offset-2">
 
@@ -48,7 +48,7 @@
                                 :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 list-type="picture-card"
-                                :disabled="uploadDisabled">
+                                :disabled="uploadDisabled" :file-list="form.fileListTmp">
                             <i class="el-icon-plus"></i>
                             <div slot="tip" class="el-upload__tip">Allow 5 images to be uploaded.</div>
                         </el-upload>
@@ -69,16 +69,26 @@
     import vk from '../vk.js'
     import uri from '../uri.js'
     Vue.use(Element)
+    import bus from './bus.js';
     export default {
         props:['param'],
         data() {
             return {
+                fileList:[],
                 form:{
                     rate:4,
                     fileList:[],
-                    type:0,
+                    fileListTmp:[],
+                    type:"0",
+                    nickname:"",
+                    summary:"",
+                    review:"",
+                    email:"",
                 },
                 rules: {
+//                    rate: [
+//                        {required: true, message: 'Rating is required.', trigger: 'blur',type: 'number', min:1},
+//                    ],
                     nickname: [
                         {required: true, message: 'Nickname is required.', trigger: 'blur'},
                     ],
@@ -91,12 +101,17 @@
                 },
                 headers:{},
                 uploadDisabled:false,
+                showOnedayCommentForm:false,
             }
         },
         methods: {
             then:function(json,code) {
                 switch (code) {
                     case uri.submitReview.code:
+                        this.form.fileList=[];
+                        this.form.fileListTmp=[];
+                        this.$refs.form.resetFields();
+                        alert('Thank you for your feedback.');
                         break;
                 }
             },
@@ -147,15 +162,33 @@
                 console.log(arguments);
                 if(this.form.type==0){
                     this.rules.summary[0].required=true;
+                    //this.rules.rate[0].required=true;
                 }else{
                     this.rules.summary[0].required=false;
+                    //this.rules.rate[0].required=false;
                 }
+                this.setIframeHeight();
             },
+            setIframeHeight(){
+                setTimeout(function(){
+                    var body=document.documentElement.getElementsByTagName('body');
+                    //console.log('document.documentElement',body[0].offsetHeight,body[0].scrollHeight);
+                    var h = body[0].offsetHeight;
+                    window.parent.postMessage({"oneday":true,height:h+100},"*");
+                },500);
+            },
+
 
         },
         mounted() {
             vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
             console.log('Component mounted.',this.param);
+            var that=this;
+            bus.$on('showOnedayCommentForm',function(type){
+                that.showOnedayCommentForm=true;
+                that.form.type=type;
+                that.setIframeHeight();
+            });
         }
     }
 </script>

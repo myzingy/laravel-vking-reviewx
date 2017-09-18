@@ -8,7 +8,8 @@ let vk={
         return process.env.NODE_ENV === 'production';
     },
     cgi:function(uri){
-        var base_url="";
+        var base_url="https://laravel.vking";
+        if(typeof uri=='string') return base_url+'/'+uri;
         base_url+='/'+uri.act;
         console.log('isProduction',this.isProduction(),base_url);
         return base_url;
@@ -50,6 +51,7 @@ let vk={
         //var headers={};
         //Object.assign(headers,window.axios.defaults.headers.common);
         console.log('postdata',data);
+        this.loading();
         Vue.http.post(url,data,{emulateJSON: true,headers:window.axios.defaults.headers.common}).then(
             (response) => {
                 that.loading(false);
@@ -127,21 +129,15 @@ let vk={
             if(cancel) cancel();
         });
     },
-    date(tpl,timespace){
-        tpl=tpl || "YYYY年MM月DD日 HH时II分SS秒";
-        var d=new Date(timespace*1000);
-        tpl=tpl.toUpperCase();
-        tpl=tpl.replace('YYYY',d.getFullYear());
-        var mm=d.getMonth()+1;
-        tpl=tpl.replace('MM',mm>9?mm:'0'+mm);
-        var dd=d.getDate();
-        tpl=tpl.replace('DD',dd>9?dd:'0'+dd);
-        var hh=d.getHours();
-        tpl=tpl.replace('HH',hh>9?hh:'0'+hh);
-        var ii=d.getMinutes();
-        tpl=tpl.replace('II',ii>9?ii:'0'+ii);
-        var ss=d.getSeconds();
-        tpl=tpl.replace('SS',ss>9?ss:'0'+ss);
+    date(timespace,tpl){
+        tpl=tpl || "MM/DD/YYYY";
+        var match=timespace.match(/([\d]+)-([\d]+)-([\d]+)/);
+        if(match){
+            tpl=tpl.toUpperCase();
+            tpl=tpl.replace('YYYY',match[1])
+                .replace('MM',match[2])
+                .replace('DD',match[3]);
+        }
         return tpl;
     },
     loading(flag=true){

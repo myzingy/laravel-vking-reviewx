@@ -60,28 +60,28 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(36);
-module.exports = __webpack_require__(37);
+__webpack_require__(38);
+module.exports = __webpack_require__(39);
 
 
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, exports) {
 
 /**
  * Created by vking on 2017/9/8.
  */
 (function ($) {
-    var base_url = 'http://laravel.vking/';
+    var base_url = 'https://laravel.vking/';
     var config = {
         dom_id: "oneday_thread",
         appid: "",
@@ -108,6 +108,10 @@ module.exports = __webpack_require__(37);
         var OnMessage = function OnMessage(e) {
             console.log("OnMessage", e);
             if (typeof e.data.oneday != 'undefined') {
+                if (e.data.oneday == 'onedayReviewImg') {
+                    onedayReviewImg(e.data.params);
+                    return;
+                }
                 document.getElementById('dsq-app8967').height = e.data.height;
             }
         };
@@ -133,6 +137,23 @@ module.exports = __webpack_require__(37);
             fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'oneday-review-jssdk');
     }
+    (function (d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);js.id = id;
+        js.href = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.css";
+        js.rel = 'stylesheet';
+        fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'link', 'oneday-viewer-css');
+    (function (d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);js.id = id;
+        js.src = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'oneday-viewer-jssdk');
     window.onedayReview = function (fun) {
         if (typeof jQuery == 'undefined') {
             console.log('jquery on loading...');
@@ -154,11 +175,26 @@ module.exports = __webpack_require__(37);
             }
         });
     };
+    window.onedayReviewImg = function (data) {
+        var $onedayReviewImg = '<div id="onedayReviewImg" style="display: none;" ></div>';
+        if (jQuery('#onedayReviewImg').length < 1) {
+            jQuery('body').append($onedayReviewImg);
+        } else {
+            window.onedayReviewImgSDK.destroy();
+        }
+        var $imgs = '';
+        for (var i in data) {
+            $imgs += '<img src="' + data[i] + '" alt="">';
+        }
+        jQuery('#onedayReviewImg').html($imgs);
+        window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
+        window.onedayReviewImgSDK.show();
+    };
 })();
 
 /***/ }),
 
-/***/ 37:
+/***/ 39:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
