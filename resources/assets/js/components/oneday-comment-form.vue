@@ -189,6 +189,28 @@
                 that.form.type=type;
                 that.setIframeHeight();
             });
+            var OnMessage=function(e){
+                console.log("OnMessage",e);
+                if(typeof e.data.oneday !='undefined'){
+                    if(e.data.oneday.act=='write_review'){
+                        that.showOnedayCommentForm=true;
+                        that.setIframeHeight();
+                        return;
+                    }
+                    if(e.data.oneday.act=='review'){
+                        that.showOnedayCommentForm=false;
+                        that.setIframeHeight();
+                        return;
+                    }
+                }
+            };
+            if (window.addEventListener) {  // all browsers except IE before version 9
+                window.addEventListener("message", OnMessage, false);
+            } else {
+                if (window.attachEvent) {   // IE before version 9
+                    window.attachEvent("onmessage", OnMessage);
+                }
+            }
         }
     }
 </script>

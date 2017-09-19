@@ -12,6 +12,7 @@
         user_name:"",
         target_id:"",
         target_sku:"",
+        target_ids:"",//获取多条记录
         view:"", //def list + form ||  no
     };
     if(typeof oneConfig!='undefined'){
@@ -81,15 +82,26 @@
         }
         console.log('jquery on loaded!');
         var url=base_url+"api/getReviewTotal";
-        var data={};
+        var data=config;
         jQuery.ajax({
             url:url,
             data:data,
             jsonp:'callback',
             dataType:'jsonp',
             success:function(json){
-                if(fun) fun(json);
+                if(fun && json.code==200) fun(json);
             }
+        });
+        //bind event
+        jQuery('.oneday-review .rating-links').find('a').click(function(){
+            document.getElementById(config.dom_id).scrollIntoView();
+            var frm = document.getElementById('dsq-app8967');
+            if(jQuery(this).attr('ga-click-event')=='write_review'){
+                frm.contentWindow.postMessage({oneday:{act:'write_review'}},"*");
+            }else{
+                frm.contentWindow.postMessage({oneday:{act:'review'}},"*");
+            }
+            return false;
         });
     };
     window.onedayReviewImg=function(data){
@@ -106,5 +118,6 @@
         jQuery('#onedayReviewImg').html($imgs);
         window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
         window.onedayReviewImgSDK.show();
+        jQuery('.viewer-container').css('z-index',9999);
     }
 })();

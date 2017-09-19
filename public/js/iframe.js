@@ -60,21 +60,21 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 37);
+/******/ 	return __webpack_require__(__webpack_require__.s = 38);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 37:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(38);
-module.exports = __webpack_require__(39);
+__webpack_require__(39);
+module.exports = __webpack_require__(40);
 
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, exports) {
 
 /**
@@ -91,6 +91,7 @@ module.exports = __webpack_require__(39);
         user_name: "",
         target_id: "",
         target_sku: "",
+        target_ids: "", //获取多条记录
         view: "" //def list + form ||  no
     };
     if (typeof oneConfig != 'undefined') {
@@ -164,15 +165,26 @@ module.exports = __webpack_require__(39);
         }
         console.log('jquery on loaded!');
         var url = base_url + "api/getReviewTotal";
-        var data = {};
+        var data = config;
         jQuery.ajax({
             url: url,
             data: data,
             jsonp: 'callback',
             dataType: 'jsonp',
             success: function success(json) {
-                if (fun) fun(json);
+                if (fun && json.code == 200) fun(json);
             }
+        });
+        //bind event
+        jQuery('.oneday-review .rating-links').find('a').click(function () {
+            document.getElementById(config.dom_id).scrollIntoView();
+            var frm = document.getElementById('dsq-app8967');
+            if (jQuery(this).attr('ga-click-event') == 'write_review') {
+                frm.contentWindow.postMessage({ oneday: { act: 'write_review' } }, "*");
+            } else {
+                frm.contentWindow.postMessage({ oneday: { act: 'review' } }, "*");
+            }
+            return false;
         });
     };
     window.onedayReviewImg = function (data) {
@@ -189,12 +201,13 @@ module.exports = __webpack_require__(39);
         jQuery('#onedayReviewImg').html($imgs);
         window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
         window.onedayReviewImgSDK.show();
+        jQuery('.viewer-container').css('z-index', 9999);
     };
 })();
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
