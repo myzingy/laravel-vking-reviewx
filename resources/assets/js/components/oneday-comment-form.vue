@@ -183,6 +183,10 @@
         mounted() {
             vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
             console.log('Component mounted.',this.param);
+            if(this.param.user_id){
+                this.form.nickname=this.param.user_name;
+                this.form.email=this.param.user_email;
+            }
             var that=this;
             bus.$on('showOnedayCommentForm',function(type){
                 that.showOnedayCommentForm=true;

@@ -24,13 +24,12 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($config)
     {
-        $param=Input::get();
-        foreach ($param as $key=>$v){
-            $config=@json_decode($key,true);
-        }
-        $app=config('review.'.$config['appid']);
+        $config=strtr($config,array('-'=>'+','_'=>'/'));
+        $config=@base64_decode($config);
+        $config=@json_decode($config,true);
+        $app=$this->__getApp($config['appid']);//config('review.'.$config['appid']);
         $param=array_merge($app,$config);
         unset($param['appkey']);
         $data=['data'=>$param,'data_json'=>json_encode($param)];
@@ -85,13 +84,10 @@ class ReviewController extends Controller
         if(!empty($data['fileList']) && count($data['fileList'])>0 && $data['type']==Review::TYPE_REVIEW){
             $data['is_attr']=Review::IS_ATTR_HAVING;
         }
+        $data['entity_id']=$this->__getEntityId($data);
         $review = Review::create($data);
         if($review->id){
             $data['ip']=\Request::getClientIp();
-            $data['user']=array(
-                'user_id'=>$data['user_id'],
-                'user_name'=>$data['user_id'],
-            );
             $review->cont()->save(new ReviewContent($data));
             if($data['is_attr']==Review::IS_ATTR_HAVING){
                 $attrs=[];
@@ -141,5 +137,20 @@ class ReviewController extends Controller
         if($data['target_sku']) return md5($appid.$data['target_sku']);
         $page=$data['page_url'];
         return md5($page);
+    }
+    function __getEntityId($data){
+        $app=$this->__getApp($data['appid']);
+        if($data['user_id'] && $data['user_id_mask']){
+            if(sha1($app['appkey'].$data['user_id'])==$data['user_id_mask']){
+                return $data['user_id'];
+            }
+        }
+        return "";
+    }
+    function __getApp($appid){
+        if(!$appid) die('appid empty.');
+        $app=config('review.'.$appid);
+        if(!$app) die('appid error.');
+        return $app;
     }
 }

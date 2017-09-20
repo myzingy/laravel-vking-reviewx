@@ -16,7 +16,7 @@ class Review extends Model
     const IS_ATTR_NULL=0;
     const IS_ATTR_HAVING=1;
     //允许批量赋值的字段
-    protected $fillable=['page_id','appid','target_id','target_sku','type','score','is_attr'];
+    protected $fillable=['page_id','appid','target_id','target_sku','type','score','is_attr','entity_id'];
     
     public function attr()
     {
@@ -40,7 +40,7 @@ class ReviewContent extends Model
     //
     protected $table = 'reviews_content';
     //允许批量赋值的字段
-    protected $fillable=['review_id','nickname','email','summary','review','page_url','user','ip'];
+    protected $fillable=['review_id','nickname','email','summary','review','page_url','user','ip','page_title'];
     protected $casts = [
         'user' => 'array',
     ];

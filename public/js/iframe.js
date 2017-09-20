@@ -87,8 +87,11 @@ module.exports = __webpack_require__(40);
         appid: "",
         page_id: "",
         page_url: location.href,
+        page_title: document.getElementsByTagName('title')[0].innerText,
         user_id: "",
+        user_id_mask: "",
         user_name: "",
+        user_email: "",
         target_id: "",
         target_sku: "",
         target_ids: "", //获取多条记录
@@ -101,10 +104,17 @@ module.exports = __webpack_require__(40);
             }
         }
     }
+    var urlencode = function urlencode(obj) {
+        if (typeof obj != "string") {
+            obj = JSON.stringify(obj);
+        }
+        var str = btoa(obj);
+        return str.replace('/', '_').replace('+', '-');
+    };
     if (config.view != 'no') {
         var $d = document.getElementById(config.dom_id);
-        var src = base_url + 'review?';
-        src += encodeURIComponent(JSON.stringify(config));
+        var src = base_url + 'review/index/';
+        src += urlencode(config); //encodeURI(JSON.stringify(config));
         $d.innerHTML = '<iframe id="dsq-app8967" name="dsq-app8967" allowtransparency="true" frameborder="0"' + ' scrolling="no" tabindex="0" title="oneday" width="100%" src="' + src + '" horizontalscrolling="no" verticalscrolling="no"></iframe>';
         var OnMessage = function OnMessage(e) {
             console.log("OnMessage", e);
@@ -201,7 +211,7 @@ module.exports = __webpack_require__(40);
         jQuery('#onedayReviewImg').html($imgs);
         window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
         window.onedayReviewImgSDK.show();
-        jQuery('.viewer-container').css('z-index', 9999);
+        jQuery('.viewer-container').css({ 'z-index': 999999, 'background-color': 'rgba(0,0,0,0.8)' });
     };
 })();
 

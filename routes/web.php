@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('photos', 'PhotoController');
 
-Route::any('/review', 'ReviewController@index');
+Route::any('/review/index/{config}', 'ReviewController@index');
 Route::any('/review/getTotal', 'ReviewController@getTotal');
 Route::post('/review/submitReview', 'ReviewController@submitReview');
 Route::any('/review/getReviews', 'ReviewController@getReviews');

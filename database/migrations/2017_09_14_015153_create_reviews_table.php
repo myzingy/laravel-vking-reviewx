@@ -21,6 +21,7 @@ class CreateReviewsTable extends Migration
             $table->char('appid',32)->index('appid');
             $table->string('target_id')->nullable();
             $table->string('target_sku')->nullable();
+            $table->string('entity_id')->nullable()->index('entity_id');
             $table->tinyInteger('type')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('score')->default(0);
@@ -35,7 +36,8 @@ class CreateReviewsTable extends Migration
             $table->string('review',500);
             $table->string('reply',500)->nullable();
             $table->string('page_url',200);
-            $table->string('user',100)->nullable();
+            $table->string('page_title',200)->nullable();
+            //$table->string('user',100)->nullable();
             $table->string('ip',15);
             $table->timestamps();
         });
