@@ -39,9 +39,12 @@ class ReviewContent extends Model
 {
     //
     protected $table = 'reviews_content';
+    
     //允许批量赋值的字段
     protected $fillable=['review_id','nickname','email','summary','review','page_url','user','ip','page_title'];
     protected $casts = [
         'user' => 'array',
     ];
+    protected $primaryKey='review_id';
+
 }
