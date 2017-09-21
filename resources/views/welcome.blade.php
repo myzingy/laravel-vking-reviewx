@@ -67,17 +67,6 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}" onclick="onedayReview">Register</a>
-                    @endif
-                </div>
-            @endif
-
             <div class="content">
                 <div id="oneday_thread"></div>
             </div>
@@ -90,14 +79,14 @@
             dom_id:"oneday_thread",
             appid:"appid",
             page_id:"",
-            page_url:location.href+'/jjj?a=b&b=c#masd',
+            page_url:location.href,
             user_id:"",
             user_name:"",
             view:"",
         };
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
-            s.src = 'http://laravel.vking/js/iframe.js';
+            s.src = 'https://review.bizseas.com/js/iframe.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
             ////

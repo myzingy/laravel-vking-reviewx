@@ -40687,7 +40687,7 @@ var vk = {
         return "development" === 'production';
     },
     cgi: function cgi(uri) {
-        var base_url = "https://laravel.vking";
+        var base_url = "https://review.bizseas.com/";
         if (typeof uri == 'string') return base_url + '/' + uri;
         base_url += '/' + uri.act;
         console.log('isProduction', this.isProduction(), base_url);
@@ -84796,7 +84796,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-upload', {
     staticClass: "upload-demo",
     attrs: {
-      "action": "/upload",
+      "action": "https://review.bizseas.com/upload",
       "headers": _vm.headers,
       "before-upload": _vm.beforeUpload,
       "on-remove": _vm.handleRemove,

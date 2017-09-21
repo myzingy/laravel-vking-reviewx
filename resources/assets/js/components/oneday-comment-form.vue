@@ -42,7 +42,7 @@
                     <el-form-item label=" " v-show="form.type==0">
                         <el-upload
                                 class="upload-demo"
-                                action="/upload"
+                                action="https://review.bizseas.com/upload"
                                 :headers="headers"
                                 :before-upload="beforeUpload"
                                 :on-remove="handleRemove"
