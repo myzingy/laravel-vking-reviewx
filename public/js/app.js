@@ -40687,7 +40687,7 @@ var vk = {
         return "development" === 'production';
     },
     cgi: function cgi(uri) {
-        var base_url = "https://review.bizseas.com/";
+        var base_url = "https://review.bizseas.com";
         if (typeof uri == 'string') return base_url + '/' + uri;
         base_url += '/' + uri.act;
         console.log('isProduction', this.isProduction(), base_url);

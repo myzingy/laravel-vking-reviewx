@@ -115,7 +115,7 @@ module.exports = __webpack_require__(40);
         var $d = document.getElementById(config.dom_id);
         var src = base_url + 'review/index/';
         src += urlencode(config); //encodeURI(JSON.stringify(config));
-        $d.innerHTML = '<iframe id="dsq-app8967" name="dsq-app8967" allowtransparency="true" frameborder="0"' + ' scrolling="no" tabindex="0" title="oneday" width="100%" src="' + src + '" horizontalscrolling="no" verticalscrolling="no"></iframe>';
+        $d.innerHTML = '<iframe referrerpolicy="" id="dsq-app8967" name="dsq-app8967" allowtransparency="true"' + ' frameborder="0"' + ' scrolling="no" tabindex="0" title="oneday" width="100%" src="' + src + '" horizontalscrolling="no" verticalscrolling="no"></iframe>';
         var OnMessage = function OnMessage(e) {
             console.log("OnMessage", e);
             if (typeof e.data.oneday != 'undefined') {
