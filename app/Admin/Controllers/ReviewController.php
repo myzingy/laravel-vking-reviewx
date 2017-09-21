@@ -83,7 +83,8 @@ class ReviewController extends Controller
 
             });
             $grid->column('product','Product')->display(function () {
-                return $this->target_id . '/' . $this->target_sku;
+                return '<a href="'.$this->cont['page_url'].'" target="_blank">'.$this->target_id . '/' .
+                    $this->target_sku.'</a>';
             });
             $grid->column('brand','Brand')->display(function () {
                 global $conf;
@@ -127,6 +128,10 @@ class ReviewController extends Controller
             $form->select('status','Status')->options(['已通过','审核中','垃圾评论']);
             $form->display('type','Type')->with(function ($type) {
                 return $type==Review::TYPE_REVIEW?'评论':'问题';
+            });
+            $form->display('product','Product')->with(function () {
+                return '<a href="'.$this->cont['page_url'].'" target="_blank">('.$this->target_id . '/' .
+                    $this->target_sku.') '.$this->cont['page_url'].'</a>';
             });
             $form->display('review','Review')->with(function () {
                 return 'Nickname:'.$this->cont['nickname'].'<br/>'
