@@ -81,7 +81,7 @@ module.exports = __webpack_require__(40);
  * Created by vking on 2017/9/8.
  */
 (function ($) {
-    var base_url = 'https://laravel.vking/';
+    var base_url = 'https://review.bizseas.com/';
     var config = {
         dom_id: "oneday_thread",
         appid: "",
