@@ -59,7 +59,7 @@ class ReviewController extends Controller
             ->whereIn('page_id', $page_ids)
             ->groupBy('page_id')
             ->get();
-        if(count($page_ids)==1){
+        if(count($page_ids)==1 && !empty($qdata[0])){
             $qdata[0]['qcount']=Review::where(array(
                 ['appid','=',$data['appid']],
                 ['status','=',Review::STATUS_SUCCESS],
