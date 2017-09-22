@@ -55,11 +55,18 @@ class ReviewController extends Controller
             ['type','=',Review::TYPE_REVIEW]
         ];
         $query=Review::select('page_id',\DB::raw('max(`target_id`) as `target_id`,max(`target_sku`) as target_sku,count(*) as `count`, avg(`score`) as `score`'));
-        $data=$query->where($where)
+        $qdata=$query->where($where)
             ->whereIn('page_id', $page_ids)
             ->groupBy('page_id')
             ->get();
-        $json=['code'=>200,'data'=>$data];
+        if(count($page_ids)==1){
+            $qdata[0]['qcount']=Review::where(array(
+                ['appid','=',$data['appid']],
+                ['status','=',Review::STATUS_SUCCESS],
+                ['type','=',Review::TYPE_REVIEW]
+            ))->count();
+        }
+        $json=['code'=>200,'data'=>$qdata];
         if($callback=Input::get('callback')){
             die("$callback(".json_encode($json).");");
         }

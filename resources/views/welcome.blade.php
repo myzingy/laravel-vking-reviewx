@@ -86,7 +86,7 @@
         };
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
-            s.src = 'https://review.bizseas.com/js/iframe.js';
+            s.src = 'https://laravel.vking/js/iframe.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
             ////

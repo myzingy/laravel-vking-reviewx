@@ -13,11 +13,42 @@
         top:-2px;
         left:5px;
     }
+    #oneday-comment-form .el-tabs__header{
+        display: none;
+    }
 </style>
 <template>
-    <div id="oneday-comment-form" v-show="showOnedayCommentForm">
-        <div class="row" style=" ">
-            <div class="col-md-8 col-md-offset-2">
+    <div id="oneday-comment-form">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 total-info" style="margin-bottom: 10px;">
+                <el-row class="row-bg" justify="space-between">
+                    <el-col :xs="24" :sm="12">
+                        <el-row class="row-bg" justify="start" v-if=" total.count>0 ">
+                            <el-col :span="10">TOTAL SCORE</el-col>
+                            <el-col :span="14"><el-rate
+                                    v-model="total.score"
+                                    disabled
+                                    show-text
+                                    text-color="#ff9900"
+                                    text-template="{value}">
+                            </el-rate></el-col>
+                        </el-row>
+                    </el-col>
+                    <el-col :xs="24" :sm="12" style="text-align:right;">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-button @click="handleDisplayForm(0)"><i class="el-icon-edit"></i> LEAVE A REVIEW</el-button>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-button @click="handleDisplayForm(1)"><i class="el-icon-information"></i> ASK A
+                                    QUESTION</el-button>
+                            </el-col>
+                        </el-row>
+
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="col-md-8 col-md-offset-2" v-show="showOnedayCommentForm">
 
                 <el-form ref="form" :model="form" label-width="20px" :rules="rules">
                     <el-tabs v-model="form.type" type="card" @tab-click="handleFormTabClick">
@@ -25,7 +56,11 @@
                         <el-tab-pane label="ASK A QUESTION" name="1"></el-tab-pane>
                     </el-tabs>
                     <el-form-item label=" " prop="rate" v-show="form.type==0">
-                        Rating <el-rate v-model="form.rate" class="rating"></el-rate>
+                        Rating
+                        <el-rate v-model="form.rate" class="rating"
+                                 :show-text="true"  text-color="#ff9900"
+                                 :texts="['Poor','Fair','Average','Good','Excellent']"
+                                 :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
                     </el-form-item>
                     <el-form-item label=" " prop="nickname">
                         <el-input v-model="form.nickname" placeholder="Nickname"></el-input>
@@ -34,7 +69,8 @@
                         <el-input v-model="form.summary" placeholder="Summary of Your Review"></el-input>
                     </el-form-item>
                     <el-form-item label=" " prop="review">
-                        <el-input type="textarea" v-model="form.review" placeholder="Review"></el-input>
+                        <el-input type="textarea" v-model="form.review"
+                                  :placeholder=" form.type==0?'Review':'Question'"></el-input>
                     </el-form-item>
                     <el-form-item label=" " prop="email">
                         <el-input v-model="form.email" placeholder="Email"></el-input>
@@ -42,19 +78,22 @@
                     <el-form-item label=" " v-show="form.type==0">
                         <el-upload
                                 class="upload-demo"
-                                action="https://review.bizseas.com/upload"
+                                :action="getUploadAction()"
                                 :headers="headers"
                                 :before-upload="beforeUpload"
                                 :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 list-type="picture-card"
-                                :disabled="uploadDisabled" :file-list="form.fileListTmp">
+                                :disabled="uploadDisabled"
+                                :file-list="form.fileListTmp"
+                                accept="image/*">
                             <i class="el-icon-plus"></i>
-                            <div slot="tip" class="el-upload__tip">Allow 5 images to be uploaded.</div>
+                            <div slot="tip" class="el-upload__tip">Allow 5 images to be uploaded; Image size limit
+                                10M.</div>
                         </el-upload>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="submitForm('form')">Post Review</el-button>
+                        <el-button type="primary" @click="submitForm('form')">Post {{form.type==0?'Review':'Question'}}</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -102,6 +141,7 @@
                 headers:{},
                 uploadDisabled:false,
                 showOnedayCommentForm:false,
+                total:{count:0,score:0.0},
             }
         },
         methods: {
@@ -111,7 +151,21 @@
                         this.form.fileList=[];
                         this.form.fileListTmp=[];
                         this.$refs.form.resetFields();
-                        alert('Thank you for your feedback.');
+                        var
+                            msg=this.form.type==0?'Thanks For Your Review!\n\nPlease note that your review may take a few days to appear as we collect content.'
+                            :'Thanks for you submitting the question, we will reply you as soon as possible!';
+                        alert(msg,'success');
+                        break;
+                    case uri.getTotal.code:
+                        if(json.data[0]){
+                            var score=0.0;
+                            if(json.data[0].score>0){
+                                score=Math.fround(json.data[0].score).toFixed(1);
+                                console.log(typeof score,score);
+                            }
+                            this.total={count:json.data[0].count,score:parseFloat(score)};
+                            bus.$emit('showTabTotalNum',this.total);
+                        }
                         break;
                 }
             },
@@ -136,7 +190,7 @@
             handleSuccess(response, file, fileList) {
                 if(typeof response.id=='undefined'){
                     fileList.pop();
-                    vk.alert('upload fail,Please Try Again');
+                    vk.toast('upload fail,Please Try Again');
                 }
                 this.setFileList(fileList);
                 //this.form.fileList=fileList;
@@ -162,12 +216,20 @@
                 console.log(arguments);
                 if(this.form.type==0){
                     this.rules.summary[0].required=true;
+                    this.rules.review[0].message='Review is required.';
                     //this.rules.rate[0].required=true;
                 }else{
                     this.rules.summary[0].required=false;
+                    this.rules.review[0].message='Question is required.';
                     //this.rules.rate[0].required=false;
                 }
                 this.setIframeHeight();
+            },
+            handleDisplayForm(type){
+                console.log(arguments);
+                this.form.type=type.toString();
+                this.showOnedayCommentForm=true;
+                this.handleFormTabClick();
             },
             setIframeHeight(){
                 setTimeout(function(){
@@ -177,7 +239,9 @@
                     window.parent.postMessage({"oneday":true,height:h+100},"*");
                 },500);
             },
-
+            getUploadAction(){
+                return vk.cgi('upload');
+            }
 
         },
         mounted() {
@@ -189,21 +253,17 @@
             }
             var that=this;
             bus.$on('showOnedayCommentForm',function(type){
-                that.showOnedayCommentForm=true;
-                that.form.type=type;
-                that.setIframeHeight();
+                that.handleDisplayForm(type);
             });
             var OnMessage=function(e){
                 console.log("OnMessage",e);
                 if(typeof e.data.oneday !='undefined'){
                     if(e.data.oneday.act=='write_review'){
-                        that.showOnedayCommentForm=true;
-                        that.setIframeHeight();
+                        that.handleDisplayForm(1);
                         return;
                     }
                     if(e.data.oneday.act=='review'){
-                        that.showOnedayCommentForm=false;
-                        that.setIframeHeight();
+                        that.handleDisplayForm(0);
                         return;
                     }
                 }
@@ -215,6 +275,7 @@
                     window.attachEvent("onmessage", OnMessage);
                 }
             }
+            vk.http(uri.getTotal,this.param,this.then);
         }
     }
 </script>

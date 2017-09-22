@@ -1,23 +1,29 @@
 <style>
-    .el-dialog__wrapper.review-images-dialog{
-        height:500px;
-    }
-    .review-images-dialog .el-dialog{
-        position: static;
-    }
+    @import "../../sass/oneday-comment-list.scss";
 </style>
 
 <template>
     <div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-        <el-select v-model="form.order" placeholder="With Pictures" style="float: right;z-index:99;width:130px;" @change="handleClickViewOrder">
-            <el-option label="With Pictures" value="is_attr"></el-option>
-            <el-option label="Newest" value=" "></el-option>
-        </el-select>
-        <el-tabs v-model="form.type" @tab-click="handleClickViewType">
-            <el-tab-pane label="Reviews" name="0"> </el-tab-pane>
-            <el-tab-pane label="Questions" name="1"> </el-tab-pane>
-        </el-tabs>
+        <el-row>
+            <el-col :xs="24" :sm="24">
+                <el-tabs v-model="form.type" @tab-click="handleClickViewType">
+                    <el-tab-pane
+                            name="0"><span slot="label">Reviews<span v-if=" count.review_num>0 "> ({{count
+                .review_num}})</span></span></el-tab-pane>
+                    <el-tab-pane name="1"><span slot="label">Questions<span v-if=" count.question_num>0 ">
+                ({{count.question_num}})</span></span></el-tab-pane>
+                </el-tabs>
+            </el-col>
+            <el-col :xs="24" :sm="0">
+                <el-select v-model="form.order" placeholder="With Pictures" style="float: right;z-index:99;width:130px;" @change="handleClickViewOrder">
+                    <el-option label="With Pictures" value="is_attr"></el-option>
+                    <el-option label="Newest" value=" "></el-option>
+                </el-select>
+            </el-col>
+        </el-row>
+
+
         <div class="review-list">
             <template v-if=" total > 0 ">
             <ol class="items review-items"  v-for="(item, key) in list">
@@ -65,6 +71,10 @@
                     'BE THE FIRST TO WRITE A REVIEW',
                     'BE THE FIRST TO ASK A QUETION'
                 ],
+                count:{
+                    question_num:0,
+                    review_num:0
+                }
             }
         },
         methods: {
@@ -118,10 +128,20 @@
                 //document.getElementById('#oneday-comment-form');
                 bus.$emit('showOnedayCommentForm',this.form.type);
             },
+            showTabTotalNum(data){
+                this.count={
+                    question_num:data.qcount,
+                    review_num:data.count
+                };
+            }
         },
         mounted() {
             vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
             this.getData();
+            var that=this;
+            bus.$on('showTabTotalNum',function(data){
+                that.showTabTotalNum(data);
+            });
         }
     }
 </script>

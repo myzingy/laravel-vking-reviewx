@@ -16,10 +16,12 @@ mix.webpackConfig({
         new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
     ]
 });
+console.log('process.env.NODE_ENV',process.env.NODE_ENV);
 mix.js('resources/assets/iframe.js', 'public/js/iframe.js')
     .js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css');
-if (mix.config.inProduction) {
+if (process.env.NODE_ENV=='production') {
+    console.log('mix.config.inProduction',process.env.NODE_ENV);
     mix.version();
 }
 

@@ -1,173 +1,3 @@
-<style>
-    .items {
-        margin: 0;
-        padding: 0;
-        list-style: none none;
-        color: #777;
-        font-size: 12px;
-    }
-    .review-field-rating .control {
-        margin-bottom: 48px;
-        margin-top: 10px
-    }
-
-    .review-list {
-        margin-bottom: 30px
-    }
-
-    .review-list .block-title strong {
-        font-weight: 300;
-        line-height: 1.1;
-        font-size: 2.6rem;
-        margin-top: 2.5rem;
-        margin-bottom: 2rem
-    }
-
-    .review-item {
-        border-bottom: 1px solid #c9c9c9;
-        margin: 0;
-        padding: 20px 0
-    }
-
-    .review-item:after {
-        clear: both;
-        content: '';
-        display: table
-    }
-
-    .review-item:last-child {
-        border-width: 0
-    }
-
-    .review-ratings {
-        display: table;
-        margin-bottom: 10px;
-        max-width: 100%
-    }
-
-    .review-author {
-        display: inline
-    }
-
-    .review-title {
-        font-weight: 300;
-        line-height: 1.1;
-        font-size: 1.8rem;
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-        margin: 0 0 20px
-    }
-
-    .review-content {
-        margin-bottom: 20px
-    }
-    .review-summary-block .review-total-score {
-        float: left;
-        margin-right: 20px;
-        height: 18px;
-        line-height: 28px
-    }
-
-    .review-summary-block .product-reviews-summary {
-        margin: 0
-    }
-
-    .review-nav-block .nav-tabs li.active>a {
-        font-size: 14px;
-        color: #f7799f;
-        font-weight: bold;
-        border: 0;
-        border-bottom: 4px solid #f7799f
-    }
-
-    .review-nav-block .nav-tabs li>a {
-        font-size: 14px;
-        font-weight: bold
-    }
-
-    .review-item .review-information {
-        height: 50px;
-        clear: both
-    }
-
-    .review-item .review-icon {
-        float: left;
-        width: 50px;
-        height: 50px;
-        position: relative
-    }
-
-    .review-item .review-icon>span {
-        display: inline-block;
-        width: 45px;
-        height: 45px;
-        background: #f7799f;
-        color: #fff;
-        text-align: center;
-        line-height: 45px;
-        border-radius: 50%;
-        font-size: 20px
-    }
-
-    .review-item .review-icon>i {
-        position: absolute;
-        top: 28px;
-        right: 4px;
-        display: inline;
-        height: 16px;
-        color: #FFF;
-        border-radius: 50%;
-        background: #26ce91;
-        font-size: 10px;
-        width: 16px;
-        text-align: center;
-        line-height: 16px
-    }
-
-    .review-item .review-title {
-        font-weight: bold;
-        font-size: 16px;
-        padding-left: 50px;
-        color: #716d6d;
-        margin: 0
-    }
-
-    .review-item .review-content {
-        padding-left: 50px
-    }
-
-    .review-item .review-date {
-        font-size: 12px
-    }
-    .pull-right {
-        float: right!important
-    }
-    .share-box{padding-left: 50px; cursor: pointer;}
-    .share-box dd{display: inline-block;margin-left: 0px;}
-    .share-box i{
-        font-size: 24px;
-        width: 34px;
-        line-height:34px;
-        display: block;
-        background-color:#ff99bf;
-        border-radius: 17px;
-        color: #dddddd;
-        margin: 3px;
-    }
-    .share-box i:hover,.share-box i.selected{
-        background-color:#f7799f;
-        color:#fff;
-    }
-    @media all and (min-width: 640px) {
-        .review-item {
-            padding: 30px 0
-        }
-
-        .review-title {
-            margin: 0 0 30px
-        }
-    }
-</style>
 <template>
     <li class="item review-item" itemscope="" itemprop="review" itemtype="http://schema.org/Review">
         <div class="review-information" itemprop="name">
@@ -201,7 +31,7 @@
                 </div>
                 <div style="font-size: 14px;">
                     <span class="question-q" style="font-size: 16px;font-weight: bold;">Q:</span>
-                    {{item.cont.summary}}
+                    {{item.cont.review}}
                 </div>
             </div>
         </div>
@@ -253,13 +83,13 @@
         </template>
         <template v-else="">
             <div class="review-content" itemprop="description">
-                <div class="official-icon" style="float: left;margin-right:4px;"><span></span></div>
+                <div :class="getOfficialIcon()" style="float: left;margin-right:4px;"><span></span></div>
                 <span class="pull-right answer-date">
                          <time class="review-details-value" itemprop="datePublished" datetime="8/16/17">
                              {{getDate('updated_at')}}
                          </time>
                     </span>
-                <div style="font-size: 14px;padding: 6px;">
+                <div style="font-size: 14px;padding: 6px;" v-if=" item.cont.reply ">
                     <div style="font-weight: bold;">{{brand}}</div>
                     <div>
                         <span style="font-weight: bold;">A:</span>
@@ -306,7 +136,11 @@
             },
             getDate(datespace){
                 return vk.date(this.item[datespace]);
-            }
+            },
+            getOfficialIcon(){
+                var brand=this.brand.toLowerCase().replace(/[^-]+-/,'');
+                return 'official-icon '+brand;
+            },
         },
         mounted() {
             this.share.page_url=this.item.cont.page_url;

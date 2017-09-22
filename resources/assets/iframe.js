@@ -3,6 +3,9 @@
  */
 (function($){
     var base_url='https://review.bizseas.com/';
+    if(!(process.env.NODE_ENV === 'production')){
+        base_url="https://laravel.vking/";
+    }
     var config={
         dom_id:"oneday_thread",
         appid:"",

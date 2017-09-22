@@ -9,15 +9,23 @@ let vk={
     },
     cgi:function(uri){
         var base_url="https://review.bizseas.com";
+        if(!this.isProduction()){
+            base_url="https://laravel.vking";
+        }
         if(typeof uri=='string') return base_url+'/'+uri;
         base_url+='/'+uri.act;
         console.log('isProduction',this.isProduction(),base_url);
         return base_url;
     },
     toast:function(msg,type='error'){
+        var option={
+            message:msg,
+            duration:0,
+            showClose:true,
+        };
         if(type=='error')
-            return Message.error(msg);
-        Message(msg);
+            return Message.error(option);
+        Message.success(option);
     },
     then:function(data,uri,callback){
         console.log('vk-then',data,uri.code);
