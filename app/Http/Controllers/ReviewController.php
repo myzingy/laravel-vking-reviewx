@@ -63,7 +63,7 @@ class ReviewController extends Controller
             $qdata[0]['qcount']=Review::where(array(
                 ['appid','=',$data['appid']],
                 ['status','=',Review::STATUS_SUCCESS],
-                ['type','=',Review::TYPE_REVIEW]
+                ['type','=',Review::TYPE_QUESTION]
             ))->count();
         }
         $json=['code'=>200,'data'=>$qdata];
@@ -118,6 +118,37 @@ class ReviewController extends Controller
         ];
         $limit=$data['limit']?$data['limit']:10;
         $reviews = Review::with(['cont','attr'])
+            ->where($where)
+            ->when($order=$data['order'], function ($query) use ($order) {
+                return $query->orderBy('is_attr','desc')->orderBy('created_at', 'desc');
+            }, function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            })
+            ->offset($data['offset']+0)
+            ->limit($limit)
+            ->get();
+        $total=0;
+        if($data['offset']<$limit){
+            $total=Review::where($where)->count();
+        }
+        die(json_encode([
+            'total'=>$total,
+            'data'=>$reviews,
+            'code'=>200,
+        ]));
+    }
+    public function getMyReviews(){
+        $data=Input::get();
+        $entity_id=$this->__getEntityId($data);
+        if(!$entity_id) die('{code:200,data:[],total:0}');
+        $sortByDesc='created_at';
+        $where=[
+            ['appid','=',$data['appid']],
+            ['entity_id','=',$entity_id],
+            //['type','=',$data['type']]
+        ];
+        $limit=$data['limit']?$data['limit']:10;
+        $reviews = Review::with(['cont'])
             ->where($where)
             ->when($order=$data['order'], function ($query) use ($order) {
                 return $query->orderBy('is_attr','desc')->orderBy('created_at', 'desc');

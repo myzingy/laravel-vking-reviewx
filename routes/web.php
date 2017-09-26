@@ -25,6 +25,7 @@ Route::any('/review/index/{config}', 'ReviewController@index');
 Route::any('/review/getTotal', 'ReviewController@getTotal');
 Route::post('/review/submitReview', 'ReviewController@submitReview');
 Route::any('/review/getReviews', 'ReviewController@getReviews');
+Route::any('/review/getMyReviews', 'ReviewController@getMyReviews');
 Route::get('/review/image/{path}', 'UploadController@image');
 
 Route::any('/upload', 'UploadController@index');

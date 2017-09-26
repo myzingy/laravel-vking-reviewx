@@ -73,8 +73,8 @@ let vk={
     },
     catchRule(uri){
         var rules={
-            10003:{timeout:86400},
-            12001:{timeout:86400},
+            //10001:{timeout:86400},
+            //12001:{timeout:86400},
         };
         var line=rules[uri.code];
         if(line){

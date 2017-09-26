@@ -8,11 +8,20 @@
         <el-row>
             <el-col :xs="24" :sm="24">
                 <el-tabs v-model="form.type" @tab-click="handleClickViewType">
-                    <el-tab-pane
-                            name="0"><span slot="label">Reviews<span v-if=" count.review_num>0 "> ({{count
-                .review_num}})</span></span></el-tab-pane>
-                    <el-tab-pane name="1"><span slot="label">Questions<span v-if=" count.question_num>0 ">
-                ({{count.question_num}})</span></span></el-tab-pane>
+                    <el-tab-pane name="0">
+                        <span slot="label">Reviews
+                            <span v-if=" count.review_num>0 ">
+                                ({{count.review_num}})
+                            </span>
+                        </span>
+                    </el-tab-pane>
+                    <el-tab-pane name="1">
+                        <span slot="label">Questions
+                            <span v-if=" count.question_num>0 ">
+                                ({{count.question_num}})
+                            </span>
+                        </span>
+                    </el-tab-pane>
                 </el-tabs>
             </el-col>
             <el-col :xs="24" :sm="0">
@@ -129,6 +138,7 @@
                 bus.$emit('showOnedayCommentForm',this.form.type);
             },
             showTabTotalNum(data){
+                console.log('data....',data);
                 this.count={
                     question_num:data.qcount,
                     review_num:data.count
@@ -140,6 +150,7 @@
             this.getData();
             var that=this;
             bus.$on('showTabTotalNum',function(data){
+                console.log('showTabTotalNum....',data);
                 that.showTabTotalNum(data);
             });
         }

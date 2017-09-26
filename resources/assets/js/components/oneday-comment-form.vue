@@ -163,7 +163,7 @@
                                 score=Math.fround(json.data[0].score).toFixed(1);
                                 console.log(typeof score,score);
                             }
-                            this.total={count:json.data[0].count,score:parseFloat(score)};
+                            this.total={count:json.data[0].count,score:parseFloat(score),qcount:json.data[0].qcount};
                             bus.$emit('showTabTotalNum',this.total);
                         }
                         break;

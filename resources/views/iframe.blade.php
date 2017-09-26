@@ -18,3 +18,13 @@
     </el-row>
 @endsection
 @endif
+
+@if($data['view']=="me-list")
+@section('content-list')
+    <el-row :gutter="20">
+        <el-col>
+            <oneday-me-list :param='{!! $data_json !!}' ref="oneday-me-list"></oneday-me-list>
+        </el-col>
+    </el-row>
+@endsection
+@endif

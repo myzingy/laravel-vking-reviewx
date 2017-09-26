@@ -19,7 +19,7 @@
         target_id:"",
         target_sku:"",
         target_ids:"",//获取多条记录
-        view:"", //def list + form ||  no
+        view:"", //def list + form || me-list || no
     };
     if(typeof oneConfig!='undefined'){
         for(var i in config){

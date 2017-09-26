@@ -18,6 +18,7 @@ window.Vue = require('vue');
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('oneday-comment-list', require('./components/oneday-comment-list.vue'));
 Vue.component('oneday-comment-form', require('./components/oneday-comment-form.vue'));
+Vue.component('oneday-me-list', require('./components/oneday-me-list.vue'));
 
 const app = new Vue({
     el: '#app'
