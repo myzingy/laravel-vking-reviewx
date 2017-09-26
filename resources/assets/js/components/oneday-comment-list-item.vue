@@ -130,6 +130,10 @@
                 window.parent.postMessage({"oneday":'onedayReviewImg',params:data},"*");
             },
             getImageUrl(id,size='full'){
+                
+                if(this.item.cont.review_images && this.item.cont.review_images.length>0){
+                    return this.item.cont.review_images[id][size=='full'?'src':'thumb'];
+                }
                 return vk.cgi("review/image/"+id+"-"
                         +window.axios.defaults.headers.common['X-CSRF-TOKEN']
                         +"-"+size+'.png');
@@ -148,6 +152,9 @@
             this.getScore=parseInt(this.item.score);
             var param=vk.ls(uri.LS_KEY.PAGE_PARAMS);
             this.brand=param.brand;
+            if(this.item.cont.review_images && this.item.cont.review_images.length>0){
+                this.item.attr=this.item.cont.review_images;
+            }
         }
     }
 </script>

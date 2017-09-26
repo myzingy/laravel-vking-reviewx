@@ -112,6 +112,7 @@ class ReviewController extends Controller
                 return $this->type==Review::TYPE_REVIEW?($this->score.'星'):"/";
             });
             $grid->status('Status')->select(['已通过','审核中','垃圾评论'], $states);
+            $grid->model()->orderBy('created_at','desc');
         });
     }
 

@@ -44,6 +44,7 @@ class ReviewContent extends Model
     protected $fillable=['review_id','nickname','email','summary','review','page_url','user','ip','page_title'];
     protected $casts = [
         'user' => 'array',
+        'review_images'=>'array',
     ];
     protected $primaryKey='review_id';
 
