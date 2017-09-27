@@ -1,13 +1,8 @@
-<style>
-    @import "../../sass/oneday-comment-list.scss";
-</style>
-
 <template>
     <div>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
         <el-row>
             <el-col :xs="24" :sm="24">
-                <el-tabs v-model="form.type" @tab-click="handleClickViewType">
+                <el-tabs v-model="form.type" @tab-click="handleClickViewType" class="oneday-list-tabs">
                     <el-tab-pane name="0">
                         <span slot="label">Reviews
                             <span v-if=" count.review_num>0 ">
@@ -24,8 +19,8 @@
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
-            <el-col :xs="24" :sm="0">
-                <el-select v-model="form.order" placeholder="With Pictures" style="float: right;z-index:99;width:130px;" @change="handleClickViewOrder">
+            <el-col :xs="24" :sm="0" class="oneday-list-tabs-select">
+                <el-select v-model="form.order" placeholder="With Pictures" @change="handleClickViewOrder">
                     <el-option label="With Pictures" value="is_attr"></el-option>
                     <el-option label="Newest" value=" "></el-option>
                 </el-select>
@@ -50,7 +45,6 @@
             </el-pagination>
         </div>
     </div>
-
 </template>
 <script>
     import Vue from 'vue'

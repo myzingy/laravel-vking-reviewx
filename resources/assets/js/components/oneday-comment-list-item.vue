@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <div class="review-ratings">
-                        <el-rate v-model="getScore" disabled></el-rate>
+                        <el-rate v-model="getScore" disabled :colors="['#ffc600','#ffc600','#ffc600']"></el-rate>
                     </div>
                 </div>
             </div>
@@ -64,18 +64,8 @@
                             </network>
                         </dd>
                         <dd>
-                            <network network="reddit" id="reddit">
-                                <i class="fa fa-fw fa-reddit"></i>
-                            </network>
-                        </dd>
-                        <dd>
                             <network network="twitter" id="twitter">
                                 <i class="fa fa-fw fa-twitter"></i>
-                            </network>
-                        </dd>
-                        <dd>
-                            <network network="vk" id="vk">
-                                <i class="fa fa-vk"></i>
                             </network>
                         </dd>
                     </dl>
@@ -100,7 +90,6 @@
         </template>
     </li>
 </template>
-
 <script>
     import Vue from 'vue'
     import vk from '../vk.js'

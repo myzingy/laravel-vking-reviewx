@@ -24,25 +24,27 @@
                 <el-row class="row-bg" justify="space-between">
                     <el-col :xs="24" :sm="12">
                         <el-row class="row-bg" justify="start" v-if=" total.count>0 ">
-                            <el-col :span="10">TOTAL SCORE</el-col>
-                            <el-col :span="14"><el-rate
+                            <div class="total-score-text">TOTAL SCORE</div>
+                            <el-rate
                                     v-model="total.score"
                                     disabled
                                     show-text
-                                    text-color="#ff9900"
+                                    :colors="['#ffc600','#ffc600','#ffc600']"
+                                    text-color="#777"
                                     text-template="{value}">
-                            </el-rate></el-col>
+                            </el-rate>
                         </el-row>
                     </el-col>
                     <el-col :xs="24" :sm="12" style="text-align:right;">
                         <el-row>
-                            <el-col :span="12">
-                                <el-button @click="handleDisplayForm(0)"><i class="el-icon-edit"></i> LEAVE A REVIEW</el-button>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-button @click="handleDisplayForm(1)"><i class="el-icon-information"></i> ASK A
-                                    QUESTION</el-button>
-                            </el-col>
+                            <el-button @click="handleDisplayForm(0)">
+                                <i class="el-icon-edit"></i>
+                                &nbsp;&nbsp;LEAVE A REVIEW
+                            </el-button>
+                            <el-button @click="handleDisplayForm(1)">
+                                <i class="el-icon-information"></i>
+                                &nbsp;&nbsp;ASK A QUESTION
+                            </el-button>
                         </el-row>
 
                     </el-col>
@@ -50,27 +52,27 @@
             </div>
             <div class="col-md-8 col-md-offset-2" v-show="showOnedayCommentForm">
 
-                <el-form ref="form" :model="form" label-width="20px" :rules="rules">
-                    <el-tabs v-model="form.type" type="card" @tab-click="handleFormTabClick">
+                <el-form ref="form" :model="form" label-width="20px" :rules="rules" class="oneday-review-form">
+                    <el-tabs v-model="form.type" type="card" @tab-click="handleFormTabClick" >
                         <el-tab-pane label="LEAVE A REVIEW" name="0"></el-tab-pane>
                         <el-tab-pane label="ASK A QUESTION" name="1"></el-tab-pane>
                     </el-tabs>
                     <el-form-item label=" " prop="rate" v-show="form.type==0">
                         Rating
                         <el-rate v-model="form.rate" class="rating"
-                                 :show-text="true"  text-color="#ff9900"
+                                 :show-text="true"  text-color="#ffc600"
                                  :texts="['Poor','Fair','Average','Good','Excellent']"
-                                 :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
+                                 :colors="['#ffc600','#ffc600','#ffc600']"></el-rate>
                     </el-form-item>
                     <el-form-item label=" " prop="nickname">
-                        <el-input v-model="form.nickname" placeholder="Nickname"></el-input>
+                        <el-input v-model="form.nickname" placeholder="Nickname" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label=" " prop="summary" v-show="form.type==0">
-                        <el-input v-model="form.summary" placeholder="Summary of Your Review"></el-input>
+                        <el-input v-model="form.summary" placeholder="Summary of Your Review" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label=" " prop="review">
                         <el-input type="textarea" v-model="form.review"
-                                  :placeholder=" form.type==0?'Review':'Question'"></el-input>
+                                  :placeholder=" form.type==0?'Review':'Question'" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label=" " prop="email">
                         <el-input v-model="form.email" placeholder="Email"></el-input>
@@ -88,20 +90,20 @@
                                 :file-list="form.fileListTmp"
                                 accept="image/*">
                             <i class="el-icon-plus"></i>
-                            <div slot="tip" class="el-upload__tip">Allow 5 images to be uploaded; Image size limit
-                                10M.</div>
+                            <div class="el-upload__text">Upload images</div>
+                            <div slot="tip" class="el-upload__tip">
+                                Allow 5 images to be uploaded; Image size limit 10M.
+                            </div>
                         </el-upload>
                     </el-form-item>
-                    <el-form-item>
+                    <el-form-item class="submit">
                         <el-button type="primary" @click="submitForm('form')">Post {{form.type==0?'Review':'Question'}}</el-button>
                     </el-form-item>
                 </el-form>
             </div>
         </div>
     </div>
-
 </template>
-
 <script>
     import Vue from 'vue'
     import Element from 'element-ui'
@@ -112,6 +114,24 @@
     export default {
         props:['param'],
         data() {
+            var checkNickname = function (rule, value, callback) {
+                if (value.length>50) {
+                    return callback(new Error('Nickname up to 50 characters.'));
+                }
+                callback();
+            };
+            var checkSummary = function(rule, value, callback) {
+                if (value.length>100) {
+                    return callback(new Error('Summary up to 100 characters.'));
+                }
+                callback();
+            };
+            var checkReview = function(rule, value, callback) {
+                if (value.length>250) {
+                    return callback(new Error('Review up to 250 characters.'));
+                }
+                callback();
+            };
             return {
                 fileList:[],
                 form:{
@@ -130,12 +150,18 @@
 //                    ],
                     nickname: [
                         {required: true, message: 'Nickname is required.', trigger: 'blur'},
+                        {validator: checkNickname, trigger: 'blur'}
                     ],
                     summary: [
                         {required: true, message: 'Summary is required.', trigger: 'blur'},
+                        {validator: checkSummary, trigger: 'blur'}
                     ],
                     review: [
                         {required: true, message: 'Review is required.', trigger: 'blur'},
+                        {validator: checkReview, trigger: 'blur'}
+                    ],
+                    email:[
+                        {type:'email',message: 'Email error.', trigger: 'blur'}
                     ],
                 },
                 headers:{},
@@ -202,12 +228,12 @@
                 console.log('beforeUpload',arguments);
             },
             submitForm(formName){
-                console.log(this.fileList);
+                console.log(formName,this.fileList);
                 this.$refs[formName].validate((valid,error) => {
                     if (valid) {
                         vk.http(uri.submitReview,this.form,this.then)
                     } else {
-                        console.log(valid,error);
+                        console.log('valid....',valid,error);
                         return false;
                     }
                 });

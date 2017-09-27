@@ -12,6 +12,11 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    @php
+        $brand=preg_replace("/[^-]+-/","",strtolower($data['brand']));
+    @endphp
+    <link rel="stylesheet" href="/css/brands/{{$brand}}.css">
 </head>
 <body>
     <div id="app">
