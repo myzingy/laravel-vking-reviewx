@@ -41,7 +41,8 @@
         <div class="block">
             <el-pagination
                     layout="prev, pager, next"
-                    :total="total" v-show="pager" @current-change="currentChange">
+                    :total="total" v-show="pager" @current-change="currentChange"
+                    :current-page.sync="currentPage">
             </el-pagination>
         </div>
     </div>
@@ -67,6 +68,7 @@
                     offset:0,
                     limit:10,
                 },
+                currentPage:1,
                 total:0,
                 list:[],
                 pager:false,
@@ -94,17 +96,19 @@
                             }
                         }
                         this.list=json.data;
-                        this.setIframeHeight();
+                        var that=this;
+                        that.setIframeHeight();
                         break;
                 }
             },
             handleClickViewOrder(){
                 this.form.offset=0;
+                this.currentPage=1;
                 this.getData();
-                //console.log(arguments);
             },
             handleClickViewType(){
                 this.form.offset=0;
+                this.currentPage=1;
                 this.getData();
             },
             getData(){
@@ -120,7 +124,8 @@
                     var body=document.documentElement.getElementsByTagName('body');
                     //console.log('document.documentElement',body[0].offsetHeight,body[0].scrollHeight);
                     var h = body[0].offsetHeight;
-                    window.parent.postMessage({"oneday":true,height:h+100},"*");
+                    console.log('OnMessage',body[0]);
+                    window.parent.postMessage({"oneday":true,height:h+100,'from':'list'},"*");
                 },500);
             },
             currentChange(currentPage){
@@ -147,6 +152,9 @@
                 console.log('showTabTotalNum....',data);
                 that.showTabTotalNum(data);
             });
+            setInterval(function(){
+                that.setIframeHeight();
+            },3000);
         }
     }
 </script>

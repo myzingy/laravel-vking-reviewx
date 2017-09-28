@@ -278,7 +278,7 @@
                     var body=document.documentElement.getElementsByTagName('body');
                     //console.log('document.documentElement',body[0].offsetHeight,body[0].scrollHeight);
                     var h = body[0].offsetHeight;
-                    window.parent.postMessage({"oneday":true,height:h+100},"*");
+                    window.parent.postMessage({"oneday":true,height:h+100,'from':'form'},"*");
                 },500);
             },
             getUploadAction(){
