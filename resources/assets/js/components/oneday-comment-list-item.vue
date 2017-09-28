@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <div class="review-ratings">
-                        <el-rate v-model="getScore" disabled :colors="['#ffc600','#ffc600','#ffc600']"></el-rate>
+                        <el-rate v-model="item.score" disabled :colors="['#ffc600','#ffc600','#ffc600']"></el-rate>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                 for(var i in this.item.attr){
                     data.push(this.getImageUrl(this.item.attr[i].attr_id));
                 }
-                window.parent.postMessage({"oneday":'onedayReviewImg',params:data},"*");
+                window.parent.postMessage({"oneday":'onedayReviewImg',params:data,index:index},"*");
             },
             getImageUrl(id,size='full'){
                 

@@ -99,20 +99,55 @@ class ReviewController extends Controller
             ];
             $grid->column('review','Review')->display(function () {
                 return
-                    'Nickname:'.$this->cont['nickname'].'<br/>'
+                    '<div style="max-width: 300px; word-break: break-all">Nickname:'.$this->cont['nickname'].'<br/>'
                     .($this->cont['email']?('Email:'.$this->cont['email'].'<br/>'):"")
                     .($this->type==Review::TYPE_REVIEW?('Summary:'.$this->cont['summary'].'<br/>'):"")
                     .($this->is_attr==Review::IS_ATTR_HAVING?'<span class="label label-primary">图</span>':'').$this->cont['review']
                     .($this->type==Review::TYPE_REVIEW?""
                         :("<br>".($this->cont['reply']?"<span class=\"label label-success\">已回复</span>"
                                 :"<span class=\"label label-danger\">未回复</span>"))
-                    );
+                    ).'</div>';
             });
             $grid->column('score','Score')->display(function () {
                 return $this->type==Review::TYPE_REVIEW?($this->score.'星'):"/";
             });
             $grid->status('Status')->select(['已通过','审核中','垃圾评论'], $states);
             $grid->model()->orderBy('created_at','desc');
+
+            // filter($callback)方法用来设置表格的简单搜索框
+            $grid->filter(function($filter){
+                // 如果过滤器太多，可以使用弹出模态框来显示过滤器.
+                $filter->useModal();
+                // 禁用id查询框
+                $filter->disableIdFilter();
+                $filter->like('target_sku', 'SKU');
+
+                $filter->is('type', '类型')->select([0=>'只看评论',1=>'只看问题']);
+                // 关系查询，查询对应关系`profile`的字段
+                $filter->where(function ($query) {
+
+                    $input = $this->input;
+
+                    $query->whereHas('cont', function ($query) use ($input) {
+                        $query->where('nickname', 'like', "%{$input}%");
+                    });
+
+                }, 'Nickname');
+                $filter->where(function ($query) {
+
+                    $input = $this->input;
+
+                    $query->whereHas('cont', function ($query) use ($input) {
+                        $query->where('email', 'like', "%{$input}%");
+                    });
+
+                }, 'Email');
+            });
+            
+            //disableExport
+            $grid->disableExport();
+            //disableCreation
+            $grid->disableCreation();
         });
     }
 

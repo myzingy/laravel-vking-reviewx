@@ -46,7 +46,7 @@
             console.log("OnMessage",e);
             if(typeof e.data.oneday !='undefined'){
                 if(e.data.oneday=='onedayReviewImg'){
-                    onedayReviewImg(e.data.params);
+                    onedayReviewImg(e.data.params,e.data.index);
                     return;
                 }
                 document.getElementById('dsq-app8967').height=e.data.height;
@@ -118,7 +118,7 @@
             return false;
         });
     };
-    window.onedayReviewImg=function(data){
+    window.onedayReviewImg=function(data,index){
         var $onedayReviewImg='<div id="onedayReviewImg" style="display: none;" ></div>';
         if(jQuery('#onedayReviewImg').length<1){
              jQuery('body').append($onedayReviewImg);
@@ -131,7 +131,8 @@
         }
         jQuery('#onedayReviewImg').html($imgs);
         window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));
-        window.onedayReviewImgSDK.show();
+        //window.onedayReviewImgSDK.show();
+        jQuery('img','#onedayReviewImg').eq(index).trigger('click');
         jQuery('.viewer-container').css({'z-index':999999,'background-color':'rgba(0,0,0,0.8)'});
     }
 })();

@@ -10,4 +10,9 @@ return [
         'domain'=>'https://sandbox.amarley.com',
         'brand'=>'Sandbox-Amarley',
     ],
+    '49626cb84d647d4075d5ebe8dajeulia'=>[
+        'appkey'=>'912f5dc5b7fbce3076272a5cbejeulia',
+        'domain'=>'https://sandbox.jeulia.com',
+        'brand'=>'Sandbox-Jeulia',
+    ],
 ];

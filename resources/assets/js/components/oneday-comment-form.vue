@@ -86,7 +86,6 @@
                                 :on-remove="handleRemove"
                                 :on-success="handleSuccess"
                                 list-type="picture-card"
-                                :disabled="uploadDisabled"
                                 :file-list="form.fileListTmp"
                                 accept="image/*">
                             <i class="el-icon-plus"></i>
@@ -168,6 +167,7 @@
                 uploadDisabled:false,
                 showOnedayCommentForm:false,
                 total:{count:0,score:0.0},
+                imgLimit:5,
             }
         },
         methods: {
@@ -202,11 +202,13 @@
                     d.push(v.response.id)
                 });
                 this.form.fileList=d;
-                if(d.length>4){
+                //console.log('el-upload el-upload--picture-card',document.getElementsByClassName('el-upload el-upload--picture-card')[0])
+                if(d.length>=this.imgLimit){
                     this.uploadDisabled=true;
                 }else{
                     this.uploadDisabled=false;
                 }
+                this.uploadPictureCard(!this.uploadDisabled);
             },
             handleRemove(file, fileList) {
                 this.setFileList(fileList);
@@ -223,9 +225,23 @@
                 console.log(this.form.fileList);
             },
             beforeUpload(){
+                if(this.uploadDisabled){
+                    return false;
+                }
+                var imgs=document.getElementsByClassName('el-upload-list el-upload-list--picture-card')[0].childNodes;
+                if(imgs.length>=this.imgLimit){
+                    return false;
+                }
                 //this.headers['X-CSRF-TOKEN']="vviYXmILePpJdr1EEzDIrRVwjgFzYupRCYrr5Kpb";
                 Object.assign(this.headers,window.axios.defaults.headers.common);
                 console.log('beforeUpload',arguments);
+            },
+            uploadPictureCard(show){
+                if(show){
+                    document.getElementsByClassName('el-upload el-upload--picture-card')[0].style.display='inline-block';
+                }else{
+                    document.getElementsByClassName('el-upload el-upload--picture-card')[0].style.display='none';
+                }
             },
             submitForm(formName){
                 console.log(formName,this.fileList);
