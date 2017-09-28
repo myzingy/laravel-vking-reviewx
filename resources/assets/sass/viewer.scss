@@ -70,10 +70,13 @@
 }
 @media all and (max-width: 400px) {
   .viewer-toolbar{
-    overflow: hidden;
-    padding: 0 8px;
-    width: 80px;
-    position: fixed;
-    top: 0;
+    width: 160px;
+  }
+  .viewer-toolbar li{
+    display:none;
+  }
+  .viewer-toolbar li.viewer-prev,.viewer-toolbar li.viewer-next{
+    display: block;
+    margin-left: 10px;
   }
 }

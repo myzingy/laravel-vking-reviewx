@@ -114,6 +114,9 @@
                 return vk.date(row.created_at);
             },
             getData(){
+                this.form.appid=this.param.appid;
+                this.form.user_id=this.param.user_id;
+                this.form.user_id_mask=this.param.user_id_mask;
                 vk.http(uri.getMyReviews,this.form,this.then)
             },
             setIframeHeight(){
@@ -131,7 +134,6 @@
             
         },
         mounted() {
-            vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
             this.getData();
         }
     }

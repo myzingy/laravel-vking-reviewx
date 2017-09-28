@@ -53,14 +53,15 @@ let vk={
         var that=this;
 
         var page_params=this.ls(URI.LS_KEY.PAGE_PARAMS);
-        if(page_params){
-            Object.assign(data,page_params);
+        page_params=page_params?page_params:{};
+        if(data){
+            Object.assign(page_params,data);
         }
         //var headers={};
         //Object.assign(headers,window.axios.defaults.headers.common);
-        console.log('postdata',data);
+        console.log('postdata',page_params);
         this.loading();
-        Vue.http.post(url,data,{emulateJSON: true,headers:window.axios.defaults.headers.common}).then(
+        Vue.http.post(url,page_params,{emulateJSON: true,headers:window.axios.defaults.headers.common}).then(
             (response) => {
                 that.loading(false);
                 that.then(response.body,uri,callback);

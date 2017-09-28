@@ -16,8 +16,10 @@
     @php
         $brand=preg_replace("/[^-]+-/","",strtolower($data['brand']));
         $brand_css=mix('/css/brands/'.$brand.'.css');
+        $guiAppid=md5($data['appid'].$data['brand']);
     @endphp
     <link rel="stylesheet" href="{{ $brand_css }}">
+    <script>const APPID='{{ $guiAppid }}';</script>
 </head>
 <body>
     <div id="app">
