@@ -33,7 +33,7 @@ class ReviewController extends Controller
         $param=array_merge($app,$config);
         unset($param['appkey']);
         $data_json=json_encode($param);
-        $data_json=strtr($data_json,array("'"=>"\'","\\"=>"\\\\"));
+        $data_json=strtr($data_json,array("'"=>"&#x27;","\\"=>""));
         $data=['data'=>$param,'data_json'=>$data_json];
         return view('iframe',$data);
     }
