@@ -21,7 +21,8 @@ mix.js('resources/assets/iframe.js', 'public/js/iframe.js')
     .js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/viewer.scss', 'public/css/viewer.min.css')
-    .sass('resources/assets/sass/brands/amarley.scss', 'public/css/brands/amarley.css');
+    .sass('resources/assets/sass/brands/amarley.scss', 'public/css/brands/amarley.css')
+    .sass('resources/assets/sass/brands/jeulia.scss', 'public/css/brands/jeulia.css');
 if (process.env.NODE_ENV=='production') {
     console.log('mix.config.inProduction',process.env.NODE_ENV);
     mix.version();
