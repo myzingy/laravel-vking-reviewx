@@ -181,6 +181,7 @@
                             msg=this.form.type==0?'Thanks For Your Review!\n\nPlease note that your review may take a few days to appear as we collect content.'
                             :'Thanks for you submitting the question, we will reply you as soon as possible!';
                         alert(msg,'success');
+                        this.form.email=this.getUserEmail();
                         break;
                     case uri.getTotal.code:
                         if(json.data[0]){
@@ -270,6 +271,10 @@
             handleDisplayForm(type){
                 console.log(arguments);
                 this.form.type=type.toString();
+                this.form.nickname="";
+                this.form.summary="";
+                this.form.review="";
+                this.form.email=this.getUserEmail();
                 this.showOnedayCommentForm=true;
                 this.handleFormTabClick();
             },
@@ -283,16 +288,21 @@
             },
             getUploadAction(){
                 return vk.cgi('upload');
+            },
+            getUserEmail(){
+                if(this.param.user_id){
+                    return this.param.user_email;
+                }
+                return "";
             }
-
         },
         mounted() {
             vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
             console.log('Component mounted.',this.param);
-            if(this.param.user_id){
-                this.form.nickname=this.param.user_name;
-                this.form.email=this.param.user_email;
-            }
+
+            //this.form.nickname=this.param.user_name;
+            this.form.email=this.getUserEmail();
+            
             var that=this;
             bus.$on('showOnedayCommentForm',function(type){
                 that.handleDisplayForm(type);
