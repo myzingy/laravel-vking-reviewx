@@ -16,6 +16,8 @@ class UpdateReviewsTable extends Migration
         //
         Schema::table('reviews_content', function (Blueprint $table) {
             $table->text('review_images')->nullable();
+            $table->string('summary', 255)->nullable()->change();
+            $table->text('review')->nullable()->change();
         });
     }
 

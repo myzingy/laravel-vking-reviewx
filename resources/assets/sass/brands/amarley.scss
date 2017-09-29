@@ -28,12 +28,14 @@ $review-list-avatar-icon-bgcolor:#2b8c14;
 $review-list-share-box:$review-list-avatar-bgcolor;
 $review-list-share-box-selected:#796848;
 
+$oneday-review-form-rate-lineheight:30px;
 $oneday-review-form-input-color:#999;
 $oneday-review-form-input-size:$text-size;
 $oneday-review-form-input-border-color:#ddd;
 $oneday-review-form-required-color:#eb2771;
 $oneday-review-form-tip-size:10px;
 $oneday-review-form-tip-color:#999;
+
 
 $oneday-review-form-submitbutton-bgcolor:#545454;
 $oneday-review-form-submitbutton-bgcolor-hover:#656565;
@@ -56,6 +58,9 @@ html {
   float: left;
   margin-right: 48px;
 }
+.total-info {
+  line-height: $total-info-button-height;
+}
 .total-info .el-button{
   border-color: $total-info-button-border-color;
   border-radius:$border-radius;
@@ -71,6 +76,13 @@ html {
 .total-info .el-button+.el-button{
   margin-left: 24px;
 }
+.total-info .el-rate__text{
+  vertical-align:middle;
+}
+.total-info .el-rate__icon,.total-info .el-rate__decimal{
+  line-height: $total-info-button-height;
+}
+
 
 .oneday-list-tabs  .el-tabs__header{
   font-size:$oneday-list-tabs-header-font-size;
@@ -147,6 +159,14 @@ html {
 }
 .oneday-review-form .submit .el-button:hover{
   background-color: $oneday-review-form-submitbutton-bgcolor-hover;
+}
+
+.oneday-review-form .el-rate__text{
+  vertical-align:middle;
+  line-height: $oneday-review-form-rate-lineheight;
+}
+.oneday-review-form .el-rate__icon,.oneday-review-form .el-rate__decimal{
+  line-height: $oneday-review-form-rate-lineheight;
 }
 @media all and (min-width: 640px) {
   .total-info .el-button{
