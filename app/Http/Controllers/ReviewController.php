@@ -66,7 +66,7 @@ class ReviewController extends Controller
                 ['appid','=',$data['appid']],
                 ['status','=',Review::STATUS_SUCCESS],
                 ['type','=',Review::TYPE_QUESTION]
-            ))->count();
+            ))->whereIn('page_id', $page_ids)->count();
         }
         $json=['code'=>200,'data'=>$qdata];
         if($callback=Input::get('callback')){
