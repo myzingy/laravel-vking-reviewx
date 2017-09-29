@@ -20,14 +20,16 @@
                 </el-tabs>
             </el-col>
             <el-col :xs="24" :sm="0" class="oneday-list-tabs-select">
-                <el-select v-model="form.order" placeholder="With Pictures" @change="handleClickViewOrder">
+                <el-select class="sel-order" v-model="form.order" placeholder="With Pictures"
+                           @change="handleClickViewOrder">
                     <el-option label="With Pictures" value="is_attr"></el-option>
                     <el-option label="Newest" value=" "></el-option>
                 </el-select>
             </el-col>
         </el-row>
 
-
+        
+        
         <div class="review-list">
             <template v-if=" total > 0 ">
             <ol class="items review-items"  v-for="(item, key) in list">
@@ -39,7 +41,7 @@
             </div>
         </div>
         <div class="block">
-            <el-pagination
+            <el-pagination class="oneday-pagination"
                     layout="prev, pager, next"
                     :total="total" v-show="pager" @current-change="currentChange"
                     :current-page.sync="currentPage">

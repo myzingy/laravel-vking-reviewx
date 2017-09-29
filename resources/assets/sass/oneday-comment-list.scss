@@ -150,8 +150,16 @@
   display: block;
   background-color:#ff99bf;
   border-radius: 17px;
-  color: #dddddd;
+  color: #fff;
   margin: 3px;
+}
+.share-box i.fa-envelope{
+  font-size: 20px;
+  width: 34px;
+  line-height: 34px;
+  height: 34px;
+  position: relative;
+  top: -2px;
 }
 .share-box i:hover,.share-box i.selected{
   background-color:#f7799f;

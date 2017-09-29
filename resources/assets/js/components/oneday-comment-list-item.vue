@@ -50,7 +50,7 @@
                     <dl class="share-box">
                         <dd>
                             <network network="facebook" id="facebook">
-                                <i class="fa fa-fw fa-facebook selected"></i>
+                                <i class="fa fa-fw fa-facebook"></i>
                             </network>
                         </dd>
                         <dd>

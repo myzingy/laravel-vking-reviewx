@@ -27,6 +27,7 @@ $review-list-avatar-bgcolor:#b7a788;
 $review-list-avatar-icon-bgcolor:#2b8c14;
 $review-list-share-box:$review-list-avatar-bgcolor;
 $review-list-share-box-selected:#796848;
+$review-list-review-font-size:13px;
 
 $oneday-review-form-rate-lineheight:30px;
 $oneday-review-form-input-color:#999;
@@ -44,6 +45,8 @@ $oneday-review-form-submitbutton-font-size:12px;
 $oneday-review-form-submitbutton-color:#fff;
 $oneday-review-form-submitbutton-width:150px;
 $oneday-review-form-submitbutton-height:36px;
+
+$oneday-pagination-bgcolor:$review-list-avatar-bgcolor;
 
 html {
   font-family: sans-serif;
@@ -69,6 +72,7 @@ html {
   //width:$total-info-button-width;
   height:$total-info-button-height;
   margin-top: 32px;
+  padding:0 15px;
 }
 .total-info .el-button:hover{
   color: $total-info-button-color-hover;
@@ -82,7 +86,23 @@ html {
 .total-info .el-rate__icon,.total-info .el-rate__decimal{
   line-height: $total-info-button-height;
 }
-
+.total-info .button-icon-pen,#oneday-comment-form .button-icon-talk{
+  font-family: svgFont;
+  width:24px;
+  height:24px;
+  display: inline-block;
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  width: 80%;
+  text-indent: 24px;
+  line-height: 24px;
+}
+.total-info .button-icon-pen{
+  background-image: url("../../svg/pen.svg");
+}
+.total-info .button-icon-talk{
+  background-image: url("../../svg/talk.svg");
+}
 
 .oneday-list-tabs  .el-tabs__header{
   font-size:$oneday-list-tabs-header-font-size;
@@ -93,6 +113,7 @@ html {
 }
 .oneday-list-tabs .el-tabs__item.is-active{
   color:$oneday-list-tabs-active-bar-color;
+  font-weight: bold;
 }
 
 .oneday-list-tabs-select .el-select{
@@ -102,10 +123,19 @@ html {
   height: $oneday-list-tabs-select-height;
   font-size: $text-size;
   color:$text-color;
+  position: relative;
+  left: -5px;
 }
 .oneday-list-tabs-select .el-input__inner{
   border-radius:$border-radius;
   border-color:$oneday-list-tabs-select-border-color;
+}
+.el-select-dropdown .el-select-dropdown__item,.oneday-list-tabs-select .el-input__inner{
+  font-size: $text-size;
+}
+.review-item .review-content{
+  font-size: $review-list-review-font-size;
+  margin-top: 10px;
 }
 
 .review-item .review-icon > span{
@@ -167,6 +197,39 @@ html {
 }
 .oneday-review-form .el-rate__icon,.oneday-review-form .el-rate__decimal{
   line-height: $oneday-review-form-rate-lineheight;
+}
+.oneday-pagination {
+  .el-pager li.active {
+    border-color: $oneday-pagination-bgcolor;
+    background-color: $oneday-pagination-bgcolor;
+    color:#fff;
+  }
+  .el-autocomplete-suggestion__wrap, .el-pager li{
+    border:1px solid $oneday-pagination-bgcolor;
+  }
+  .el-pager li:last-child {
+    border-right-color:$oneday-pagination-bgcolor;
+  }
+  .el-pager li{
+    margin-right: 6px;
+    color:$oneday-pagination-bgcolor;
+  }
+  .el-pager li.active+li{
+    border:1px solid $oneday-pagination-bgcolor;
+  }
+  &.el-pagination .btn-prev,&.el-pagination .btn-next{
+    margin-right: 6px;
+    border:1px solid $oneday-pagination-bgcolor;
+    color:$oneday-pagination-bgcolor;
+  }
+  &.el-pagination button.disabled{
+    border:1px solid #ccc;
+    color:#ccc;
+  }
+}
+.block{
+  width: 100%;
+  text-align: center;
 }
 @media all and (min-width: 640px) {
   .total-info .el-button{
