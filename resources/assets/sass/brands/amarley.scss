@@ -301,6 +301,9 @@ html {
   .oneday-list-tabs-select .el-select .el-input__inner{
     border: 0;
   }
+  .total-info .el-button{
+    padding:0 10px;
+  }
   .total-info .el-button+.el-button{
     margin-left: 10px;
   }
