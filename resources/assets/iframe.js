@@ -75,7 +75,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.href = base_url+"css/viewer.min.css";
+        js.href = base_url+"css/viewer.min.css?"+Math.random();
         js.rel='stylesheet';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'link', 'oneday-viewer-css'));
