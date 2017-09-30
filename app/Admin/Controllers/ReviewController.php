@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\Facades\Input;
 
 class ReviewController extends Controller
 {
@@ -74,6 +75,9 @@ class ReviewController extends Controller
         return Admin::grid(Review::class, function (Grid $grid) {
             global $conf;
             $conf=config('review');
+            if($appid=Input::get('appid')){
+                $grid->model()->where('appid','=',$appid);
+            }
             $grid->id('ID')->sortable();
             $grid->model()->with(['cont','attr']);
             // 第二列显示title字段，由于title字段名和Grid对象的title方法冲突，所以用Grid的column()方法代替
@@ -111,7 +115,7 @@ class ReviewController extends Controller
             $grid->column('score','Score')->display(function () {
                 return $this->type==Review::TYPE_REVIEW?($this->score.'星'):"/";
             });
-            $grid->status('Status')->select(['已通过','审核中','垃圾评论'], $states);
+            $grid->status('Status')->select(['已通过','待审核','垃圾评论'], $states);
             $grid->model()->orderBy('created_at','desc');
 
             // filter($callback)方法用来设置表格的简单搜索框
@@ -122,7 +126,8 @@ class ReviewController extends Controller
                 $filter->disableIdFilter();
                 $filter->like('target_sku', 'SKU');
 
-                $filter->is('type', '类型')->select([0=>'只看评论',1=>'只看问题']);
+                $filter->is('type', '评论/问题')->select([0=>'只看评论',1=>'只看问题']);
+                $filter->is('status', '状态')->select([0=>'已通过',1=>'待审核',2=>'垃圾评论']);
                 // 关系查询，查询对应关系`profile`的字段
                 $filter->where(function ($query) {
 
@@ -142,6 +147,24 @@ class ReviewController extends Controller
                     });
 
                 }, 'Email');
+                $filter->where(function ($query) {
+
+                    $input = $this->input;
+
+                    $query->whereHas('cont', function ($query) use ($input) {
+                        $query->where('page_title', 'like', "%{$input}%");
+                    });
+
+                }, 'Page Title');
+                $filter->where(function ($query) {
+
+                    $input = $this->input;
+
+                    $query->whereHas('cont', function ($query) use ($input) {
+                        $query->where('page_url', 'like', "%{$input}%");
+                    });
+
+                }, 'Page URL');
             });
             
             //disableExport
