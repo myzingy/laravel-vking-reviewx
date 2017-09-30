@@ -105,8 +105,9 @@ class ReviewController extends Controller
                 return
                     '<div style="max-width: 300px; word-break: break-all">Nickname:'.$this->cont['nickname'].'<br/>'
                     .($this->cont['email']?('Email:'.$this->cont['email'].'<br/>'):"")
-                    .($this->type==Review::TYPE_REVIEW?('Summary:'.$this->cont['summary'].'<br/>'):"")
-                    .($this->is_attr==Review::IS_ATTR_HAVING?'<span class="label label-primary">图</span>':'').$this->cont['review']
+                    .($this->type==Review::TYPE_REVIEW?('Summary:'.htmlentities($this->cont['summary']).'<br/>'):"")
+                    .($this->is_attr==Review::IS_ATTR_HAVING?'<span class="label label-primary">图</span>':'')
+                    .htmlentities($this->cont['review'])
                     .($this->type==Review::TYPE_REVIEW?""
                         :("<br>".($this->cont['reply']?"<span class=\"label label-success\">已回复</span>"
                                 :"<span class=\"label label-danger\">未回复</span>"))
