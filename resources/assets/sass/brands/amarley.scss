@@ -1,5 +1,6 @@
 //@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic&v1&subset=latin,latin-ext");
 //@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+@import "icomoon.scss";
 @import "../oneday-comment-list.scss";
 $text-color: #777;
 $text-size: 12px;
@@ -100,11 +101,23 @@ html {
   text-indent: 24px;
   line-height: 24px;
 }
-.total-info .button-icon-pen{
-  background-image: url("../../svg/pen.svg");
-}
-.total-info .button-icon-talk{
-  background-image: url("../../svg/talk.svg");
+.total-info {
+  .el-button {
+    *{ height: 26px; line-height: 26px;
+      display: block;}
+    i{ float: left}
+  }
+  .icon-pen{
+    margin-top: -2px;
+    &:before {
+      content: "\e903";
+      font-size: 26px;
+    }
+  }
+  .icon-talk:before {
+    content: "\e901";
+    font-size: 26px;
+  }
 }
 
 .oneday-list-tabs  .el-tabs__header{

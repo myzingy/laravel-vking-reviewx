@@ -38,15 +38,12 @@
                     <el-col :xs="24" :sm="12" style="text-align:right;">
                         <el-row>
                             <el-button @click="handleDisplayForm(0)">
-                                <i class="el-icon-edit"></i>
-                                &nbsp;&nbsp;LEAVE A REVIEW
+                                <i class="icon-pen"></i> LEAVE A REVIEW
                             </el-button>
                             <el-button @click="handleDisplayForm(1)">
-                                <i class="el-icon-information"></i>
-                                &nbsp;&nbsp;ASK A QUESTION
+                                <i class="icon-talk"></i> ASK A QUESTION
                             </el-button>
                         </el-row>
-
                     </el-col>
                 </el-row>
             </div>
