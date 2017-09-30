@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json([
                 'code' => 500,
-                'message' => 'There was an error. Please refresh your page and try again',//$exception->getMessage(),
+                'message' => 'Review was an error. Please refresh your page and try again',//$exception->getMessage(),
             ], 500);
         }
         return parent::render($request, $exception);

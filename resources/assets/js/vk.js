@@ -37,7 +37,8 @@ let vk={
             return;
         }
         if(data.code!=200){
-            this.toast(data.message);
+            //this.toast(data.message);
+            this.alert(data.message?data.message:"Review was an error. Please refresh your page and try again");
             return;
         }
         this.setCache(uri,data);
