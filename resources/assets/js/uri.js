@@ -5,9 +5,5 @@ export default {
     getMyReviews:{act:'review/getMyReviews',code:10003},
     
     LS_KEY:{PAGE_PARAMS:APPID}
-
-
-
-
     
 }

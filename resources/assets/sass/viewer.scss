@@ -30,7 +30,7 @@
   content: "Previous";
 }
 .viewer-play:before {
-  background-position: -300px 0;
+  background-position: -298px 0;
   content: "Play";
 }
 .viewer-next:before {
@@ -68,15 +68,36 @@
 .viewer-toolbar{
   width:700px;
 }
+.viewer-button {
+  background-color: rgba(0,0,0,.5);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 100px;
+}
+.viewer-button:before {
+  bottom: 7px;
+  left: 7px;
+}
+.viewer-toolbar>li:before{
+  margin: 0;
+}
+.viewer-toolbar>.viewer-play,.viewer-toolbar>.viewer-play:before {
+  margin:0;
+}
 @media all and (max-width: 400px) {
   .viewer-toolbar{
-    width: 160px;
+    width: 200px;
   }
   .viewer-toolbar li{
     display:none;
   }
   .viewer-toolbar li.viewer-prev,.viewer-toolbar li.viewer-next{
     display: block;
-    margin-left: 0 20px;
+    margin: 0 20px;
   }
 }

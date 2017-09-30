@@ -23,9 +23,9 @@
             <div class="col-md-8 col-md-offset-2 total-info" style="margin-bottom: 10px;">
                 <el-row class="row-bg" justify="space-between">
                     <el-col :xs="24" :sm="12">
-                        <el-row class="row-bg" justify="start" v-if=" total.count>0 ">
+                        <el-row class="row-bg" justify="start">
                             <div class="total-score-text">TOTAL SCORE</div>
-                            <el-rate
+                            <el-rate v-if=" total.count>0 "
                                     v-model="total.score"
                                     disabled
                                     show-text

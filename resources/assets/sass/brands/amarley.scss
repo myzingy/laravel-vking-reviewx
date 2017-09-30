@@ -28,6 +28,9 @@ $review-list-avatar-icon-bgcolor:#2b8c14;
 $review-list-share-box:$review-list-avatar-bgcolor;
 $review-list-share-box-selected:#796848;
 $review-list-review-font-size:13px;
+$review-list-nickname-font-size:16px;
+$review-list-summary-font-size:14px;
+
 
 $oneday-review-form-rate-lineheight:30px;
 $oneday-review-form-input-color:#999;
@@ -150,6 +153,41 @@ html {
 .share-box i:hover, .share-box i.selected{
   background:$review-list-share-box-selected;
 }
+.review-item{
+  .nickname{
+    font-size: $review-list-nickname-font-size;
+    font-weight: bold;
+  }
+  .review-title{
+    font-size: $review-list-summary-font-size;
+  }
+  .content-padding-right{
+    padding-right: 80px;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+  .review-information{
+    height: auto;
+  }
+}
+.review-info{
+  span{
+    height: 20px; line-height: 20px;
+    display: block;
+    float: left;
+  }
+  .verified{
+    margin-left: 10px;
+  }
+  .review-date{
+    float: right;
+    height: 20px; line-height: 20px;
+  }
+}
+.review-date{
+  float: right;
+  height: 20px; line-height: 20px;
+}
 
 .oneday-review-form .el-form-item.is-required .el-form-item__label:before{
   color:$oneday-review-form-required-color;
@@ -252,5 +290,17 @@ html {
   }
   .total-info .el-button+.el-button{
     margin-left: 10px;
+  }
+  .review-item {
+    .nickname {
+      max-width: 100px;
+      overflow: hidden;
+      &.brand{
+        max-width:100%;
+      }
+    }
+    .content-padding-right{
+      padding-right: 40px;
+    }
   }
 }

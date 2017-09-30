@@ -7,14 +7,14 @@
             </div>
             <div class="review-info" v-if=" item.type==0 ">
                 <div>
-                    <span style="font-weight: bold;font-size: 14px;">{{item.cont.nickname}}</span>
-                    <span style="font-size: 12px;">Verified Buyer</span>
+                    <span class="nickname">{{item.cont.nickname}}</span>
+                    <span class="verified">Verified Buyer</span>
                     <span class="pull-right review-date">
                                 <time class="review-details-value" itemprop="datePublished"
                                       datetime="8/15/17">{{getDate('created_at')}}</time>
                             </span>
                 </div>
-                <div>
+                <div style="clear: right;">
                     <div class="review-ratings">
                         <el-rate v-model="item.score" disabled :colors="['#ffc600','#ffc600','#ffc600']"></el-rate>
                     </div>
@@ -22,22 +22,22 @@
             </div>
             <div class="review-info" v-else="">
                 <div>
-                    <span style="font-weight: bold;font-size: 14px;">{{item.cont.nickname}}</span>
-                    <span style="font-size: 12px;">Verified Reviewer</span>
+                    <span class="nickname">{{item.cont.nickname}}</span>
+                    <span class="verified">Verified Reviewer</span>
                     <span class="pull-right review-date">
                                 <time class="review-details-value" itemprop="datePublished"
                                       datetime="8/15/17">{{getDate('created_at')}}</time>
                             </span>
                 </div>
-                <div style="font-size: 14px;">
-                    <span class="question-q" style="font-size: 16px;font-weight: bold;">Q:</span>
+                <div style="font-size: 14px;clear: right;" class="content-padding-right">
+                    <span class="question-q nickname">Q:</span>
                     {{item.cont.review}}
                 </div>
             </div>
         </div>
         <template v-if=" item.type==0 ">
-            <div class="review-title" itemprop="name">{{item.cont.summary}}</div>
-            <div class="review-content" itemprop="description">{{item.cont.review}}</div>
+            <div class="review-title content-padding-right" itemprop="name">{{item.cont.summary}}</div>
+            <div class="review-content content-padding-right" itemprop="description">{{item.cont.review}}</div>
             <div class="review-images" style="padding-left: 50px;">
                 <span v-for="(row,key) in item.attr">
                     <a class="review-image-a" @click="openReviewImagesDialog(key)">
@@ -74,15 +74,15 @@
         <template v-else="">
             <div class="review-content" itemprop="description">
                 <div :class="getOfficialIcon()" style="float: left;margin-right:4px;"><span></span></div>
-                <span class="pull-right answer-date">
+                <div style="font-size: 14px;padding: 6px;" v-if=" item.cont.reply ">
+                    <div class="pull-right review-date">
                          <time class="review-details-value" itemprop="datePublished" datetime="8/16/17">
                              {{getDate('updated_at')}}
                          </time>
-                    </span>
-                <div style="font-size: 14px;padding: 6px;" v-if=" item.cont.reply ">
-                    <div style="font-weight: bold;">{{brand}}</div>
-                    <div>
-                        <span style="font-weight: bold;">A:</span>
+                    </div>
+                    <div class="nickname brand">{{brand}}</div>
+                    <div class="content-padding-right">
+                        <span class="nickname">A:</span>
                         {{item.cont.reply}}
                     </div>
                 </div>
