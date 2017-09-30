@@ -38,11 +38,13 @@ class UploadController extends Controller
         $attr=ImageuploadModel::find($attr_id);
         header("content-type: ".$attr->original_mime);
         if('full.png'==$size){
-            header("content-length:".$attr->original_filesize);
-            echo file_get_contents($attr->original_filepath);
+            //header("content-length: ".$attr->original_filesize);
+            readfile($attr->original_filepath);
+            //echo file_get_contents($attr->original_filepath);
         }else{
-            header("content-length:".$attr->size100_filesize);
-            echo file_get_contents($attr->size100_filepath);
+            //header("content-length: ".$attr->size100_filesize);
+            readfile($attr->size100_filepath);
+            //echo file_get_contents($attr->size100_filepath);
         }
         exit;
     }
