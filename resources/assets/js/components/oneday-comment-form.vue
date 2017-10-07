@@ -16,11 +16,13 @@
     #oneday-comment-form .el-tabs__header{
         display: none;
     }
-    .el-upload-list--picture-card .el-upload-list__item-actions:hover span{
-        width:0px;
-        height:0px;
-        line-height: 1.0;
-        overflow: hidden;
+    @media all and (max-width: 400px) {
+        .el-upload-list--picture-card .el-upload-list__item-actions:hover span {
+            width: 0px;
+            height: 0px;
+            line-height: 1.0;
+            overflow: hidden;
+        }
     }
 </style>
 <template>
