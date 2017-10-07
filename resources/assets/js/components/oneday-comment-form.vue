@@ -16,6 +16,12 @@
     #oneday-comment-form .el-tabs__header{
         display: none;
     }
+    .el-upload-list--picture-card .el-upload-list__item-actions:hover span{
+        width:0px;
+        height:0px;
+        line-height: 1.0;
+        overflow: hidden;
+    }
 </style>
 <template>
     <div id="oneday-comment-form">
@@ -84,7 +90,8 @@
                                 :on-success="handleSuccess"
                                 list-type="picture-card"
                                 :file-list="form.fileListTmp"
-                                accept="image/*">
+                                accept="image/*"
+                                onClick="handleClickUpload(event)">
                             <i class="el-icon-plus"></i>
                             <div class="el-upload__text">Upload images</div>
                             <div slot="tip" class="el-upload__tip">
@@ -94,6 +101,24 @@
                     </el-form-item>
                     <el-form-item class="submit">
                         <el-button type="primary" @click="submitForm('form')">Post {{form.type==0?'Review':'Question'}}</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div class="col-md-8 col-md-offset-2" v-show="showOnedayQuestionForm">
+
+                <el-form ref="questionForm" :model="questionForm" label-width="20px" :rules="rules" class="oneday-review-form">
+                    <el-form-item label=" " prop="nickname">
+                        <el-input v-model="questionForm.nickname" placeholder="Nickname" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label=" " prop="question">
+                        <el-input type="textarea" v-model="questionForm.question"
+                                  placeholder="Question" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label=" " prop="email">
+                        <el-input v-model="questionForm.email" placeholder="Email"></el-input>
+                    </el-form-item>
+                    <el-form-item class="submit">
+                        <el-button type="primary" @click="submitForm('questionForm')">Post Question</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -111,22 +136,39 @@
         props:['param'],
         data() {
             var checkNickname = function (rule, value, callback) {
+                value=value.trim();
+                if (value.length<1) {
+                    return callback(new Error('Nickname is required.'));
+                }
                 if (value.length>50) {
                     return callback(new Error('Nickname up to 50 characters.'));
                 }
                 callback();
             };
             var checkSummary = function(rule, value, callback) {
+                value=value.trim();
+                if (value.length<1) {
+                    return callback(new Error('Summary is required.'));
+                }
                 if (value.length>100) {
                     return callback(new Error('Summary up to 100 characters.'));
                 }
                 callback();
             };
-            var checkReview = function(rule, value, callback) {
+            var checkReview = function(rule, value, callback,label='Review') {
+                value=value.trim();
+                if(label!='Question') label='Review';
+                console.log('checkReview',label);
+                if (value.length<1) {
+                    return callback(new Error(label.toString()+' is required.'));
+                }
                 if (value.length>250) {
-                    return callback(new Error('Review up to 250 characters.'));
+                    return callback(new Error(label.toString()+' up to 250 characters.'));
                 }
                 callback();
+            };
+            var checkQuestion = function(rule, value, callback) {
+                return checkReview(rule, value, callback,'Question');
             };
             return {
                 fileList:[],
@@ -139,6 +181,13 @@
                     summary:"",
                     review:"",
                     email:"",
+                },
+                questionForm:{
+                    type:"1",
+                    nickname:"",
+                    review:"",
+                    email:"",
+                    question:"",
                 },
                 rules: {
 //                    rate: [
@@ -156,6 +205,10 @@
                         {required: true, message: 'Review is required.', trigger: 'blur'},
                         {validator: checkReview, trigger: 'blur'}
                     ],
+                    question: [
+                        {required: true, message: 'Question is required.', trigger: 'blur'},
+                        {validator: checkQuestion, trigger: 'blur'}
+                    ],
                     email:[
                         {type:'email',message: 'Email error.', trigger: 'blur'}
                     ],
@@ -163,6 +216,7 @@
                 headers:{},
                 uploadDisabled:false,
                 showOnedayCommentForm:false,
+                showOnedayQuestionForm:false,
                 total:{count:0,score:0.0},
                 imgLimit:5,
             }
@@ -171,14 +225,18 @@
             then:function(json,code) {
                 switch (code) {
                     case uri.submitReview.code:
-                        this.form.fileList=[];
-                        this.form.fileListTmp=[];
-                        this.$refs.form.resetFields();
-                        var
-                            msg=this.form.type==0?'Thanks For Your Review!\n\nPlease note that your review may take a few days to appear as we collect content.'
-                            :'Thanks for you submitting the question, we will reply you as soon as possible!';
+                        if(!this.showOnedayQuestionForm){
+                            var msg='Thanks For Your Review!\n\nPlease note that your review may take a few days to appear as we collect content.';
+                            this.form.fileList=[];
+                            this.form.fileListTmp=[];
+                            this.$refs.form.resetFields();
+                            this.form.email=this.getUserEmail();
+                        }else{
+                            var msg='Thanks for you submitting the question, we will reply you as soon as possible!';
+                            this.$refs.questionForm.resetFields();
+                            this.questionForm.email=this.getUserEmail();
+                        }
                         alert(msg,'success');
-                        this.form.email=this.getUserEmail();
                         break;
                     case uri.getTotal.code:
                         if(json.data[0]){
@@ -245,7 +303,12 @@
                 console.log(formName,this.fileList);
                 this.$refs[formName].validate((valid,error) => {
                     if (valid) {
-                        vk.http(uri.submitReview,this.form,this.then)
+                        if('questionForm'==formName){
+                            this.questionForm.review=this.questionForm.question;
+                            vk.http(uri.submitReview,this.questionForm,this.then)
+                        }else{
+                            vk.http(uri.submitReview,this.form,this.then)
+                        }
                     } else {
                         console.log('valid....',valid,error);
                         return false;
@@ -254,7 +317,7 @@
             },
             handleFormTabClick(){
                 console.log(arguments);
-                if(this.form.type==0){
+                if(!this.showOnedayQuestionForm){
                     this.rules.summary[0].required=true;
                     this.rules.review[0].message='Review is required.';
                     //this.rules.rate[0].required=true;
@@ -267,12 +330,18 @@
             },
             handleDisplayForm(type){
                 console.log(arguments);
-                this.form.type=type.toString();
-                this.form.nickname="";
-                this.form.summary="";
-                this.form.review="";
-                this.form.email=this.getUserEmail();
-                this.showOnedayCommentForm=true;
+//                this.form.type=type.toString();
+//                this.form.nickname="";
+//                this.form.summary="";
+//                this.form.review="";
+//                this.form.email=this.getUserEmail();
+                if(type==1){
+                    this.showOnedayCommentForm=false;
+                    this.showOnedayQuestionForm=true;
+                }else{
+                    this.showOnedayQuestionForm=false;
+                    this.showOnedayCommentForm=true;
+                }
                 this.handleFormTabClick();
             },
             setIframeHeight(){
@@ -291,7 +360,7 @@
                     return this.param.user_email;
                 }
                 return "";
-            }
+            },
         },
         mounted() {
             vk.ls(uri.LS_KEY.PAGE_PARAMS,this.param);
@@ -299,6 +368,7 @@
 
             //this.form.nickname=this.param.user_name;
             this.form.email=this.getUserEmail();
+            this.questionForm.email=this.getUserEmail();
             
             var that=this;
             bus.$on('showOnedayCommentForm',function(type){
@@ -308,11 +378,13 @@
                 console.log("OnMessage",e);
                 if(typeof e.data.oneday !='undefined'){
                     if(e.data.oneday.act=='write_review'){
-                        that.handleDisplayForm(1);
+                        that.handleDisplayForm(0);
                         return;
                     }
                     if(e.data.oneday.act=='review'){
-                        that.handleDisplayForm(0);
+                        //that.handleDisplayForm(0);
+                        that.showOnedayCommentForm=false;
+                        that.showOnedayQuestionForm=false;
                         return;
                     }
                 }
@@ -325,6 +397,25 @@
                 }
             }
             vk.http(uri.getTotal,this.param,this.then);
+            window.handleClickUpload=function(event){
+
+                var dom=event.target;
+                var del=document.getElementsByClassName('el-upload-list__item-delete');
+                if(del.length>0){
+                    //console.log('window.handleClickUpload',del);
+                    for(var i in del){
+                        if(typeof del[i].style=='undefined') continue;
+                        del[i].style.width=0;
+                        del[i].style.height=0;
+                    }
+                }
+                if(dom.className=='el-upload-list__item-actions'){
+                    var del=dom.getElementsByClassName('el-upload-list__item-delete');
+                    del[0].style.width='20px';
+                    del[0].style.height='20px';
+                    //dom.getElementsByClassName('el-icon-delete2');
+                }
+            };
         }
     }
 </script>

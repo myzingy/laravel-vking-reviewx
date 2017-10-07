@@ -134,7 +134,9 @@
         }
         var $imgs='';
         for(var i in data){
-            $imgs+='<img src="'+data[i]+'" alt="">';
+            if(/^http(s)?:\/\//.test(data[i])){
+                $imgs+='<img src="'+data[i]+'" alt="">';
+            }
         }
         jQuery('#onedayReviewImg').html($imgs);
         window.onedayReviewImgSDK = new Viewer(document.getElementById('onedayReviewImg'));

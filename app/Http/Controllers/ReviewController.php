@@ -88,7 +88,7 @@ class ReviewController extends Controller
     public function submitReview(){
         $data=Input::get();
         $data['page_id']=$this->__getPageId($data);
-        $data['score']=$data['rate']+0;
+        $data['score']=empty($data['rate'])?0:($data['rate']+0);
         $data['is_attr']=Review::IS_ATTR_NULL;
         if(!empty($data['fileList']) && count($data['fileList'])>0 && $data['type']==Review::TYPE_REVIEW){
             $data['is_attr']=Review::IS_ATTR_HAVING;
