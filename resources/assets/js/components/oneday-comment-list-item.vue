@@ -109,7 +109,7 @@
         },
         methods: {
             getNicknameChar(){
-                return this.item.cont.nickname[0];
+                return this.item.cont.nickname[0].toUpperCase();
             },
             openReviewImagesDialog(index){
                 var data=[];

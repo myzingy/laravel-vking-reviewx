@@ -1,21 +1,22 @@
 //@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic&v1&subset=latin,latin-ext");
 //@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+@import "icomoon.scss";
 @import "../oneday-comment-list.scss";
-$text-color: #777;
+$text-color: #3e3e3e;
 $text-size: 12px;
 $border-radius:0;
 
 $total-score-text-size:16px;
-$total-score-text-color:$text-color;
+$total-score-text-color:#0a263c;
 
-$total-info-button-border-color:#666;
+$total-info-button-border-color:#92bddb;
 $total-info-button-font-size:12px;
-$total-info-button-color:#333;
-$total-info-button-color-hover:#656565;
+$total-info-button-color:#92bddb;
+$total-info-button-color-hover:#1c6293;
 $total-info-button-width:200px;
 $total-info-button-height:40px;
 
-$oneday-list-tabs-active-bar-color:#796848;
+$oneday-list-tabs-active-bar-color:#2f97df;
 $oneday-list-tabs-header-font-size:16px;
 $oneday-list-tabs-header-font-color:$text-color;
 
@@ -23,151 +24,46 @@ $oneday-list-tabs-select-width:180px;
 $oneday-list-tabs-select-height:30px;
 $oneday-list-tabs-select-border-color:#ddd;
 
-$review-list-avatar-bgcolor:#b7a788;
-$review-list-avatar-icon-bgcolor:#2b8c14;
+$review-list-avatar-bgcolor:#49b0f8;
+$review-list-avatar-icon-bgcolor:#04bd38;
 $review-list-share-box:$review-list-avatar-bgcolor;
-$review-list-share-box-selected:#796848;
+$review-list-share-box-selected:#2f97df;
+$review-list-review-font-size:13px;
+$review-list-nickname-font-size:16px;
+$review-list-summary-font-size:14px;
 
-$oneday-review-form-input-color:#999;
+
+$oneday-review-form-rate-lineheight:30px;
+$oneday-review-form-input-color:#3e3e3e;
 $oneday-review-form-input-size:$text-size;
-$oneday-review-form-input-border-color:#ddd;
-$oneday-review-form-required-color:#eb2771;
+$oneday-review-form-input-border-color:#ccc;
+$oneday-review-form-required-color:#eb6161;
 $oneday-review-form-tip-size:10px;
-$oneday-review-form-tip-color:#999;
+$oneday-review-form-tip-color:#3e3e3e;
 
-$oneday-review-form-submitbutton-bgcolor:#545454;
-$oneday-review-form-submitbutton-bgcolor-hover:#656565;
+
+$oneday-review-form-submitbutton-bgcolor:#ffc24c;
+$oneday-review-form-submitbutton-bgcolor-hover:#ffa800;
 $oneday-review-form-submitbutton-border-width:0;
 $oneday-review-form-submitbutton-font-size:12px;
 $oneday-review-form-submitbutton-color:#fff;
 $oneday-review-form-submitbutton-width:150px;
 $oneday-review-form-submitbutton-height:36px;
 
-html {
-  font-family: sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  font-size: 12px;
-  color:$text-color;
-}
-.total-score-text{
-  font-size: $total-score-text-size;
-  color:$total-score-text-color;
-  float: left;
-  margin-right: 48px;
-}
-.total-info .el-button{
-  border-color: $total-info-button-border-color;
-  border-radius:$border-radius;
-  color: $total-info-button-color;
-  font-size: $total-info-button-font-size;
-  //width:$total-info-button-width;
-  height:$total-info-button-height;
-  margin-top: 32px;
-}
-.total-info .el-button:hover{
-  color: $total-info-button-color-hover;
-}
-.total-info .el-button+.el-button{
-  margin-left: 24px;
-}
+$oneday-pagination-bgcolor:$review-list-avatar-bgcolor;
 
-.oneday-list-tabs  .el-tabs__header{
-  font-size:$oneday-list-tabs-header-font-size;
-  color:$oneday-list-tabs-header-font-color;
-}
-.oneday-list-tabs .el-tabs__active-bar{
-  background-color:$oneday-list-tabs-active-bar-color;
-}
-.oneday-list-tabs .el-tabs__item.is-active{
-  color:$oneday-list-tabs-active-bar-color;
-}
+$nickname-color:#0a263c;
+$review-title-color:#0a263c;
+$form-upimage-color:#92bddb;
 
-.oneday-list-tabs-select .el-select{
-  float: right;
-  z-index:99;
-  width:120px;
-  height: $oneday-list-tabs-select-height;
-  font-size: $text-size;
-  color:$text-color;
-}
-.oneday-list-tabs-select .el-input__inner{
-  border-radius:$border-radius;
-  border-color:$oneday-list-tabs-select-border-color;
-}
+@import "brands.scss";
 
-.review-item .review-icon > span{
-  background:$review-list-avatar-bgcolor;
-}
-.review-item .review-icon > i{
-  background:$review-list-avatar-icon-bgcolor;
-}
-.share-box i{
-  background:$review-list-share-box;
-}
-.share-box i:hover, .share-box i.selected{
-  background:$review-list-share-box-selected;
-}
-
-.oneday-review-form .el-form-item.is-required .el-form-item__label:before{
-  color:$oneday-review-form-required-color;
-}
-.oneday-review-form .el-input__inner{
-  font-size: $oneday-review-form-input-size;
-  color:$oneday-review-form-input-color;
-  border-color: $oneday-review-form-input-border-color;
-}
-.oneday-review-form .el-upload__tip {
-  font-size: $oneday-review-form-tip-size;
-  color:$oneday-review-form-tip-color;
-}
-.oneday-review-form .el-upload--picture-card{
-  overflow: hidden;
-}
-.oneday-review-form .el-upload--picture-card i{
-  color:$review-list-avatar-bgcolor;
-}
-.oneday-review-form .el-upload__text{
-  color:$review-list-avatar-bgcolor;
-  font-size: 9px;
-  line-height: normal;
-  white-space: nowrap;
-  margin-top: -22px;
-  -webkit-transform-origin-x: 0;
-  -webkit-transform: scale(0.90);
-}
-.oneday-review-form .submit .el-button{
-  border-width:$oneday-review-form-submitbutton-border-width;
-  border-radius:$border-radius;
-  color: $oneday-review-form-submitbutton-color;
-  font-size: $oneday-review-form-submitbutton-font-size;
-  width:$oneday-review-form-submitbutton-width;
-  height:$oneday-review-form-submitbutton-height;
-  background-color: $oneday-review-form-submitbutton-bgcolor;
-}
-.oneday-review-form .submit .el-button:hover{
-  background-color: $oneday-review-form-submitbutton-bgcolor-hover;
-}
-@media all and (min-width: 640px) {
-  .total-info .el-button{
-    width:$total-info-button-width;
-    margin-top: 0px;
-  }
-  .oneday-list-tabs-select .el-select{
-    width:$oneday-list-tabs-select-width;
-  }
-}
 @media all and (max-width: 400px) {
-  .oneday-list-tabs .el-tabs__item{
-    padding: 0 8px;
+  .items{
+    color: #777;
   }
-  .oneday-list-tabs-select{
-    margin-top: -53px;
-  }
-  .oneday-list-tabs-select .el-select .el-input__inner{
-    border: 0;
-  }
-  .total-info .el-button+.el-button{
-    margin-left: 10px;
+  .total-info .el-button{
+    color: $total-info-button-color-hover;
+    border-color: $total-info-button-color-hover;
   }
 }
