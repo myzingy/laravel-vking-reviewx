@@ -400,7 +400,9 @@
             }
             vk.http(uri.getTotal,this.param,this.then);
             window.handleClickUpload=function(event){
-
+                if(!/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    return;
+                }
                 var dom=event.target;
                 var del=document.getElementsByClassName('el-upload-list__item-delete');
                 if(del.length>0){
