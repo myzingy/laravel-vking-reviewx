@@ -95,6 +95,13 @@
             return;
         }
         console.log('jquery on loaded!');
+        if(typeof oneConfig!='undefined'){
+            for(var i in config){
+                if(typeof oneConfig[i]!='undefined'){
+                    config[i]=oneConfig[i];
+                }
+            }
+        }
         var url=base_url+"api/getReviewTotal";
         var data=config;
         jQuery.ajax({

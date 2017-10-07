@@ -54,8 +54,8 @@
                             </network>
                         </dd>
                         <dd>
-                            <network network="email" id="email">
-                                <i class="fa fa-fw fa-envelope"></i>
+                            <network network="linkedin" id="linkedin">
+                                <i class="fa fa-fw fa-linkedin"></i>
                             </network>
                         </dd>
                         <dd>
