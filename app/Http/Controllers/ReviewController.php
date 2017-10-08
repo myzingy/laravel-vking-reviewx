@@ -196,4 +196,8 @@ class ReviewController extends Controller
         if(!$app) die('appid error.');
         return $app;
     }
+    function code(){
+        header("Location: ".mix('js/iframe.js'));
+        exit;
+    }
 }
