@@ -87,6 +87,9 @@ class ReviewController extends Controller
     }
     public function submitReview(){
         $data=Input::get();
+        foreach($data as &$x){
+            $x=trim($x);
+        }
         $data['page_id']=$this->__getPageId($data);
         $data['score']=empty($data['rate'])?0:($data['rate']+0);
         $data['is_attr']=Review::IS_ATTR_NULL;
