@@ -103,7 +103,7 @@ class ReviewController extends Controller
             ];
             $grid->column('review','Review')->display(function () {
                 return
-                    '<div style="max-width: 300px; word-break: break-all">Nickname:'.$this->cont['nickname'].'<br/>'
+                    '<div style="max-width: 300px; word-break: break-all">Nickname:'.htmlentities($this->cont['nickname']).'<br/>'
                     .($this->cont['email']?('Email:'.$this->cont['email'].'<br/>'):"")
                     .($this->type==Review::TYPE_REVIEW?('Summary:'.htmlentities($this->cont['summary']).'<br/>'):"")
                     .($this->is_attr==Review::IS_ATTR_HAVING?'<span class="label label-primary">图</span>':'')
@@ -194,10 +194,10 @@ class ReviewController extends Controller
                     $this->target_sku.') '.$this->cont['page_url'].'</a>';
             });
             $form->display('review','Review')->with(function () {
-                return 'Nickname:'.$this->cont['nickname'].'<br/>'
+                return 'Nickname:'.htmlentities($this->cont['nickname']).'<br/>'
                     .($this->cont['email']?('Email:'.$this->cont['email'].'<br/>'):"")
-                    .($this->type==Review::TYPE_REVIEW?('Summary:'.$this->cont['summary'].'<br/>'):"")
-                    .$this->cont['review'];
+                    .($this->type==Review::TYPE_REVIEW?('Summary:'.htmlentities($this->cont['summary']).'<br/>'):"")
+                    .htmlentities($this->cont['review']);
             });
             $form->display('Score')->with(function () {
                 if($this->type!=Review::TYPE_REVIEW) return "";
