@@ -77,10 +77,10 @@ if($rows>=$limit){
 die('over!!!');
 
 function getReviewContSql($ids){
-    global $URI,$db;
+    global $URI,$db,$START_ID;
     $ids=implode(',',$ids);
     $sql=<<<END
-SELECT R.review_id+1000 AS review_id,
+SELECT R.review_id+$START_ID AS review_id,
 RD.nickname AS nickname,
 RD.`title` AS summary, 
 RD.`detail` AS review,
@@ -94,7 +94,7 @@ FROM  `review` R
 LEFT JOIN `review_detail` RD ON R.`review_id`=RD.`review_id`
 LEFT JOIN `catalog_product_entity_varchar` CPV1 ON CPV1.`entity_id`=R.`entity_pk_value` AND CPV1.attribute_id=98
 LEFT JOIN `catalog_product_entity_varchar` CPV2 ON CPV2.`entity_id`=R.`entity_pk_value` AND CPV2.attribute_id=71
-WHERE R.review_id+1000 IN ($ids)
+WHERE R.review_id+$START_ID IN ($ids)
 GROUP BY R.review_id;
 END;
     $query=mysql_query($sql,$db);
