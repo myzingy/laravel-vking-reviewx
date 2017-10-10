@@ -97,9 +97,16 @@
                                 this.pager=false;
                             }
                         }
-                        this.list=json.data;
-                        var that=this;
-                        that.setIframeHeight();
+                        var data=[];
+                        for(var i in json.data){
+                            var _d= json.data[i];
+                            if(_d.cont.review_images && _d.cont.review_images.length>0){
+                                _d.attr=_d.cont.review_images;
+                            }
+                            data.push(_d);
+                        }
+                        this.list=data;
+                        this.setIframeHeight();
                         break;
                 }
             },

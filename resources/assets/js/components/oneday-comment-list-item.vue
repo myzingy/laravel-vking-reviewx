@@ -137,13 +137,10 @@
         },
         mounted() {
             this.share.page_url=this.item.cont.page_url;
-            console.log('this.item.cont.page_url',this.item.cont.page_url);
+            //console.log('this.item',this.item);
             this.getScore=parseInt(this.item.score);
             var param=vk.ls(uri.LS_KEY.PAGE_PARAMS);
             this.brand=param.brand;
-            if(this.item.cont.review_images && this.item.cont.review_images.length>0){
-                this.item.attr=this.item.cont.review_images;
-            }
         }
     }
 </script>
