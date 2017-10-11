@@ -213,9 +213,17 @@ class ReviewController extends Controller
             $form->display('Images')->with(function () {
                 if($this->is_attr!=Review::IS_ATTR_HAVING) return "";
                 $attr='<div>';
-                foreach ($this->attr as $r){
-                    $attr.='<a href="/review/image/'.($r['attr_id']).'-x-full.png" target="_blank">'.
-                        '<img src="/review/image/'.($r['attr_id']).'-x-100.png" alt="..." class="img-rounded"></a>';
+                if(count($this->cont['review_images'])>0){
+                    $this->attr=$this->cont['review_images'];
+                    foreach ($this->attr as $r){
+                        $attr.='<a href="'.($r['src']).'" target="_blank">'.
+                            '<img src="'.($r['src']).'" alt="..." class="img-rounded"></a>';
+                    }
+                }else{
+                    foreach ($this->attr as $r){
+                        $attr.='<a href="/review/image/'.($r['attr_id']).'-x-full.png" target="_blank">'.
+                            '<img src="/review/image/'.($r['attr_id']).'-x-100.png" alt="..." class="img-rounded"></a>';
+                    }
                 }
                 return $attr.'</div>';
             });
