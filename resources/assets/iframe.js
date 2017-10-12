@@ -49,6 +49,12 @@
                     onedayReviewImg(e.data.params,e.data.index);
                     return;
                 }
+                if(e.data.oneday=='scrollIntoView'){
+                    document.getElementById(config.dom_id).scrollIntoView();
+                    var frm = document.getElementById('dsq-app8967');
+                    frm.contentWindow.postMessage({oneday:{act:'review'}},"*");
+                    return;
+                }
                 document.getElementById('dsq-app8967').height=e.data.height;
             }
         };

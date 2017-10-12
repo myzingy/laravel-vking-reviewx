@@ -36,7 +36,11 @@
             </div>
         </div>
         <template v-if=" item.type==0 ">
-            <div class="review-title content-padding-right" itemprop="name">{{item.cont.summary}}</div>
+            <div v-if=" item.cont.summary!='default' && item.cont.summary!='image' "
+                 class="review-title content-padding-right"
+                 itemprop="name">
+                {{item.cont.summary}}
+            </div>
             <div class="review-content content-padding-right" itemprop="description">{{item.cont.review}}</div>
             <div class="review-images" style="padding-left: 50px;">
                 <span v-for="(row,key) in item.attr">

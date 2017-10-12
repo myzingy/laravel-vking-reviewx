@@ -81,7 +81,8 @@
                 count:{
                     question_num:0,
                     review_num:0
-                }
+                },
+                isClickPager:false,
             }
         },
         methods: {
@@ -107,6 +108,9 @@
                         }
                         this.list=data;
                         this.setIframeHeight();
+                        if(this.isClickPager){
+                            this.scrollIntoView();
+                        }
                         break;
                 }
             },
@@ -137,8 +141,13 @@
                     window.parent.postMessage({"oneday":true,height:h+100,'from':'list'},"*");
                 },500);
             },
+            scrollIntoView(){
+                this.isClickPager=false;
+                window.parent.postMessage({"oneday":"scrollIntoView"},"*");
+            },
             currentChange(currentPage){
                 this.form.offset=(currentPage-1)*this.form.limit
+                this.isClickPager=true;
                 this.getData();
             },
             showOnedayCommentForm(){
