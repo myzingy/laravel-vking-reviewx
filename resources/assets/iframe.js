@@ -155,18 +155,22 @@
         jQuery('.viewer-container').css({'z-index':999999,'background-color':'rgba(0,0,0,0.8)'});
     }
     //share_img
-    for(var t=0;t<10;t++){
-        setTimeout(function(){
-            var frm = document.getElementById('dsq-app8967');
-            var metas=document.getElementsByTagName('meta');
-            for(var i in metas){
-                var url=metas[i].content;
-                if(/^(https:|http:)?\/\/.*\.(jpg|jpeg|png)$/i.test(url)){
-                    console.log('meta-img',url);
-                    frm.contentWindow.postMessage({oneday:{act:'share_img','url':url}},"*");
-                    break;
-                }
+    window.shareImgIntervalRun=0;
+    window.shareImgInterval=setInterval(function(){
+        if(window.shareImgIntervalRun>10){
+            clearInterval(window.shareImgInterval);
+            return;
+        }
+        var frm = document.getElementById('dsq-app8967');
+        var metas=document.getElementsByTagName('meta');
+        for(var i in metas){
+            var url=metas[i].content;
+            if(/^(https:|http:)?\/\/.*\.(jpg|jpeg|png)$/i.test(url)){
+                console.log('meta-img',url);
+                frm.contentWindow.postMessage({oneday:{act:'share_img','url':url}},"*");
+                break;
             }
-        },5000);
-    }
+        }
+        window.shareImgIntervalRun++;
+    },5000);
 })();
