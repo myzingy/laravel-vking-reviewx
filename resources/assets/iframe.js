@@ -154,4 +154,17 @@
         jQuery('img','#onedayReviewImg').eq(index).trigger('click');
         jQuery('.viewer-container').css({'z-index':999999,'background-color':'rgba(0,0,0,0.8)'});
     }
+    //share_img
+    setTimeout(function(){
+        var frm = document.getElementById('dsq-app8967');
+        var metas=document.getElementsByTagName('meta');
+        for(var i in metas){
+            var url=metas[i].content;
+            if(/^http(s)?:\/\/.*\.(jpg|jpeg|png)$/i.test(url)){
+                console.log('meta-img',url);
+                frm.contentWindow.postMessage({oneday:{act:'share_img','url':url}},"*");
+                break;
+            }
+        }
+    },5000);
 })();

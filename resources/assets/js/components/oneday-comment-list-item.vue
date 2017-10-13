@@ -50,6 +50,11 @@
                 </span>
             </div>
             <social-sharing :url="share.page_url"
+                            :title="getSummary()"
+                            :description="item.cont.review"
+                            :quote="getSummary()"
+                            :twitter-user="item.cont.nickname"
+                            :media="getMedia()"
                             v-cloak inline-template>
                     <dl class="share-box">
                         <dd>
@@ -115,6 +120,12 @@
             getNicknameChar(){
                 return this.item.cont.nickname[0].toUpperCase();
             },
+            getSummary(){
+                return (!this.item.cont.summary
+                    || this.item.cont.summary=='default'
+                    || this.item.cont.summary=='image'
+                )?this.item.cont.review:this.item.cont.summary
+            },
             openReviewImagesDialog(index){
                 var data=[];
                 for(var i in this.item.attr){
@@ -138,6 +149,14 @@
                 var brand=this.brand.toLowerCase().replace(/[^-]+-/,'');
                 return 'official-icon '+brand;
             },
+            getMedia(){
+                if(this.item.attr.length>0){
+                    for(var i in this.item.attr){
+                        return this.getImageUrl(this.item.attr[i].attr_id,'full');
+                    }
+                }
+                return vk.ls('share_img');
+            }
         },
         mounted() {
             this.share.page_url=this.item.cont.page_url;

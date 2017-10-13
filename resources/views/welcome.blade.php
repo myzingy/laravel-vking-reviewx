@@ -9,7 +9,23 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <meta property='fb:app_id' content='1439507363016114' />
+        <meta property='og:url' content='https://www.jeulia.com/jeulia-interchangeable-intertwined-halo-oval-cut-created-sapphire-wedding-set-sg6n083.html' />
+        <meta property='og:type' content='product' />
+        <meta property='og:title' content='Check this out from jeulia! Jeulia Interchangeable Intertwined Halo Oval Cut Created Sapphire Wedding Set 4.15CT' />
+        <meta property='og:description' content='I found this beautiful item - Jeulia Interchangeable Intertwined Halo Oval Cut Created Sapphire Wedding Set 4.15CT from Jeulia.com, they offer premium quality jewelry at affordable price. Like it?'>
+        <meta property='og:image' content='http://res.jeulia.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/g/sg6n083_1_.jpg' />
+        <meta property='og:image' content='http://res.jeulia.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/g/sg6n083_3_.jpg' />
+        <meta property='og:image' content='http://res.jeulia.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/g/sg6n083_2_.jpg' />
+        <meta property='og:image' content='http://res.jeulia.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/g/sg6n083_4_.jpg' />
+        <meta property="og:price:amount" content="195.9500" />
+        <meta property="og:price:currency" content="USD" />
+        <meta property="og:availability" content="instock" />
+        <meta name="twitter:card" content="summary" />
+        <meta property="twitter:url" content="https://www.jeulia.com/jeulia-interchangeable-intertwined-halo-oval-cut-created-sapphire-wedding-set-sg6n083.html" />
+        <meta property="twitter:title" content="Check this out from jeulia! Jeulia Interchangeable Intertwined Halo Oval Cut Created Sapphire Wedding Set 4.15CT" />
+        <meta property="twitter:description" content="I found this beautiful item - Jeulia Interchangeable Intertwined Halo Oval Cut Created Sapphire Wedding Set 4.15CT from Jeulia.com, they offer premium quality jewelry at affordable price. Like it?" />
+        <meta property=" twitter:image" content="http://res.jeulia.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/s/g/sg6n083_1_.jpg" />
         <!-- Styles -->
         <style>
             html, body {

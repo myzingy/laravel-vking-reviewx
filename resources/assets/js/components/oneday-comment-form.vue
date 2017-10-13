@@ -380,7 +380,7 @@
                 that.handleDisplayForm(type);
             });
             var OnMessage=function(e){
-                console.log("OnMessage",e);
+                console.log("OnParentMessage",e);
                 if(typeof e.data.oneday !='undefined'){
                     if(e.data.oneday.act=='write_review'){
                         that.handleDisplayForm(0);
@@ -392,6 +392,12 @@
                         that.showOnedayQuestionForm=false;
                         return;
                     }
+                    if(e.data.oneday.act=='share_img'){
+                        //that.handleDisplayForm(0);
+                        vk.ls('share_img',e.data.oneday.url);
+                        return;
+                    }
+
                 }
             };
             if (window.addEventListener) {  // all browsers except IE before version 9
