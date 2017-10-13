@@ -227,18 +227,21 @@
             then:function(json,code) {
                 switch (code) {
                     case uri.submitReview.code:
+                        this.uploadDisabled=false;
                         if(!this.showOnedayQuestionForm){
                             var msg='Thanks For Your Review!\n\nPlease note that your review may take a few days to appear as we collect content.';
                             this.form.fileList=[];
                             this.form.fileListTmp=[];
                             this.$refs.form.resetFields();
                             this.form.email=this.getUserEmail();
+                            this.uploadPictureCard(true);
                         }else{
                             var msg='Thanks for you submitting the question, we will reply you as soon as possible!';
                             this.$refs.questionForm.resetFields();
                             this.questionForm.email=this.getUserEmail();
                         }
-                        alert(msg,'success');
+                        //alert(msg,'success');
+                        window.parent.postMessage({"oneday":'alert','msg':msg},"*");
                         break;
                     case uri.getTotal.code:
                         if(json.data[0]){

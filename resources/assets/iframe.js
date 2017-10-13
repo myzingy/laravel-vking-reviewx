@@ -55,6 +55,10 @@
                     frm.contentWindow.postMessage({oneday:{act:'review'}},"*");
                     return;
                 }
+                if(e.data.oneday=='alert'){
+                    alert(e.data.msg);
+                    return;
+                }
                 document.getElementById('dsq-app8967').height=e.data.height;
             }
         };
