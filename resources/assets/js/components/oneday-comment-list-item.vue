@@ -50,9 +50,9 @@
                 </span>
             </div>
             <social-sharing :url="share.page_url"
-                            :title="getSummary()"
+                            :title="getSummary(true)"
                             :description="item.cont.review"
-                            :quote="getSummary()"
+                            :quote="getQuote()"
                             :twitter-user="item.cont.nickname"
                             :media="getMedia()"
                             v-cloak inline-template>
@@ -120,11 +120,16 @@
             getNicknameChar(){
                 return this.item.cont.nickname[0].toUpperCase();
             },
-            getSummary(){
-                return (!this.item.cont.summary
+            getSummary(flag){
+                var summary= (!this.item.cont.summary
                     || this.item.cont.summary=='default'
                     || this.item.cont.summary=='image'
-                )?this.item.cont.review:this.item.cont.summary
+                )?"":this.item.cont.summary;
+                return flag?(summary?summary:this.item.cont.review):summary;
+            },
+            getQuote(){
+                var summary=this.getSummary(false);
+                return (summary?(summary+' - '):'')+this.item.cont.review;
             },
             openReviewImagesDialog(index){
                 var data=[];
