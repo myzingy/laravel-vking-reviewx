@@ -113,6 +113,13 @@ html {
 .share-box i:hover, .share-box i.selected{
   background:$review-list-share-box-selected;
 }
+.share-box{
+  &:link,&:active,&:visited,&:hover{
+    background: transparent;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-appearance:none;
+  }
+}
 .review-item{
   .nickname{
     font-size: $review-list-nickname-font-size;
