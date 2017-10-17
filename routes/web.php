@@ -30,3 +30,5 @@ Route::any('/review/code', 'ReviewController@code');
 Route::get('/review/image/{path}', 'UploadController@image');
 
 Route::any('/upload', 'UploadController@index');
+
+Route::get('/b/{path}', 'ShareController@index');

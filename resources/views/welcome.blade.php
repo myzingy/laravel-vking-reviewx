@@ -95,7 +95,7 @@
             dom_id:"oneday_thread",
             appid:"appid",
             page_id:"",
-            page_url:location.href,
+            page_url:'https://sandbox.amarley.com/sterling-silver-3-00-ct-emerald-cut-white-cz-cubic-zirconia-halo-ring-ag617-12.html',
             user_id:"",
             user_name:"",
             view:"",
