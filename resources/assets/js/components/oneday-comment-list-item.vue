@@ -164,10 +164,10 @@
             }
         },
         mounted() {
-            //this.share.page_url=this.item.cont.page_url;
-            var str=btoa(this.item.cont.page_url);
-            str=str.replace('/','_').replace('+','-');
-            this.share.page_url=vk.cgi('b/'+str);
+            this.share.page_url=this.item.cont.page_url;
+//            var str=btoa(this.item.cont.page_url);
+//            str=str.replace('/','_').replace('+','-');
+//            this.share.page_url=vk.cgi('b/'+str);
             //console.log('this.item',this.item);
             this.getScore=parseInt(this.item.score);
             var param=vk.ls(uri.LS_KEY.PAGE_PARAMS);
