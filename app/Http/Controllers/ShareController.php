@@ -29,7 +29,7 @@ class ShareController extends Controller
     {
         $appid=Input::get('appid');
         $page_url=Input::get('page_url');
-        $flag=preg_match("/shxxare=([^&]+)/",$page_url,$match);
+        $flag=preg_match("/shxxare=([a-z\-_\d]+(=?)(=?))/i",$page_url,$match);
         if(empty($match[1])) die('{code:501,message:"param error"}');
         $match[1]=strtr($match[1],array('-'=>'+','_'=>'/'));
         list($target_id,$user_id,$user_id_mask,$platform)=explode(",",base64_decode($match[1]));
