@@ -52,7 +52,7 @@ class ShareController extends Controller
             'api'=>$app['api'],
             'apiPublicKey'=>$app['apiPublicKey'],
             'apiSecretKey'=>$app['apiSecretKey'],
-            'customer_id'=>'37053',
+            'customer_id'=>$user_id,
             'event'=>'share',
             'platform'=>$platform,
             'model'=>'review'
