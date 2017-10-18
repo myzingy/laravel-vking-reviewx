@@ -45,7 +45,7 @@ class ShareController extends Controller
         $isEmpty=Points::isEmpty(array(
             'page_id'=>$page_id,
             'customer_id'=>$user_id,
-            'type'=>Points::TYPE_SHARE_CALLBACK
+            'platform'=>$platform
         ));
         if(!$isEmpty) die('{code:504,message:"isEmpty error"}');
         $res=lib::points(array(

@@ -17,7 +17,7 @@ class CreatePointsTable extends Migration
             $table->increments('id');
             $table->string('page_id')->index();
             $table->string('customer_id')->index();
-            $table->tinyInteger('type')->comment('0/1 评论/分享');
+            $table->string('platform')->index();
         });
     }
 

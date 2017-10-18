@@ -89,7 +89,9 @@
         </div>
 
     </body>
-    @verbatim
+    @php
+        $user_id_mask= sha1('appkey'.'user_id');
+    @endphp
     <script>
         var oneConfig={
             dom_id:"oneday_thread",
@@ -97,7 +99,7 @@
             page_id:"",
             page_url:location.href,
             user_id:"user_id",
-            user_id_mask:"user_id_mask",
+            user_id_mask:"{{$user_id_mask}}",
             user_name:"user_name",
             user_email:"user@email.com",
             target_id:"target_id",
@@ -124,5 +126,4 @@
             useOnedayReview();
         })();
     </script>
-    @endverbatim
 </html>

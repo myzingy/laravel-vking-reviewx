@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Points extends Model
 {
-    const TYPE_REVIEW=0;
-    const TYPE_SHARE_CALLBACK=1;
-
+    const PLARFORM_REVIEW='REVIEW';
+    
     public $timestamps = false;
     protected $table = 'points';
     //允许批量赋值的字段
-    protected $fillable=['page_id','customer_id','type'];
+    protected $fillable=['page_id','customer_id','platform'];
 
     static function isEmpty($data){
         $count=self::where($data)->count();
