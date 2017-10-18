@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Model\Points;
 use App\Review;
 
 use Encore\Admin\Form;
@@ -234,6 +235,24 @@ class ReviewController extends Controller
                 if($form->type==Review::TYPE_QUESTION && $form->cont['reply']){
                     $form->model()->status=Review::STATUS_SUCCESS;
                     $form->model()->save();
+                }
+                if($form->status==Review::STATUS_SUCCESS && $entity_id=$form->model()->entity_id){
+                    $app=config('review.'.$form->model()->appid);
+                    if(!$app) return;
+                    $page_id=$form->model()->page_id;
+                    $isEmpty=\App\Model\Points::isEmpty(array(
+                        'page_id'=>$page_id,
+                        'customer_id'=>$entity_id,
+                        'platform'=>\App\Model\Points::PLARFORM_REVIEW
+                    ));
+                    if(!$isEmpty) return;
+                    $res=\App\lib::points(array(
+                        'api'=>$app['api'],
+                        'apiPublicKey'=>$app['apiPublicKey'],
+                        'apiSecretKey'=>$app['apiSecretKey'],
+                        'customer_id'=>$entity_id,
+                        'event'=>$form->model()->is_attr==Review::IS_ATTR_HAVING?'review_with_photos':'review',
+                    ));
                 }
             });
         });

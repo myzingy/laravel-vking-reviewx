@@ -190,17 +190,16 @@
             this.brand=param.brand;
             var that=this;
             this.$root.$on('social_shares_open', function (network, url) {
-                // your event code
-                if(that.isFacebook){
-                    that.isFacebook=false;
-                    console.log(that.$refs.social_sharing.openSharer());
+                //console.log('popup.window.location.href',that.$refs.social_sharing.popup.window.location);
+                setTimeout(function(){
                     that.$refs.social_sharing.url=that.getItemShareUrl(network);
-                    that.$refs.social_sharing.openSharer(network, that.$refs.social_sharing.createSharingUrl(network));
-                }
+                    var share_url=that.$refs.social_sharing.createSharingUrl(network);
+                    that.$refs.social_sharing.popup.window.location.href= share_url;
+                },100);
             });
-            this.$root.$on('social_shares_change', function (network, url) {
-                that.isFacebook=true;
-            });
+//            this.$root.$on('social_shares_change', function (network, url) {
+//                that.isFacebook=true;
+//            });
         }
     }
 </script>
