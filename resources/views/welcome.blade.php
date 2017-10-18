@@ -95,9 +95,13 @@
             dom_id:"oneday_thread",
             appid:"appid",
             page_id:"",
-            page_url:'https://sandbox.amarley.com/sterling-silver-3-00-ct-emerald-cut-white-cz-cubic-zirconia-halo-ring-ag617-12.html',
-            user_id:"",
-            user_name:"",
+            page_url:location.href,
+            user_id:"user_id",
+            user_id_mask:"user_id_mask",
+            user_name:"user_name",
+            user_email:"user@email.com",
+            target_id:"target_id",
+            target_sku:"target_sku",
             view:"",
         };
         (function() { // DON'T EDIT BELOW THIS LINE

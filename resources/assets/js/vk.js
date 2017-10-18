@@ -29,6 +29,7 @@ let vk={
     },
     then:function(data,uri,callback){
         console.log('vk-then',data,uri.code);
+        if(uri.code==URI.shareCallback.code) return;
         if(data.code==-1){
             this.toast(data.message);
             sessionStorage.clear();

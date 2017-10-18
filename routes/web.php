@@ -31,4 +31,4 @@ Route::get('/review/image/{path}', 'UploadController@image');
 
 Route::any('/upload', 'UploadController@index');
 
-Route::get('/b/{path}', 'ShareController@index');
+Route::post('/share', 'ShareController@index');

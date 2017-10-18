@@ -49,17 +49,18 @@
                     </a>
                 </span>
             </div>
-            <social-sharing :url="share.page_url"
+            <social-sharing :url="getItemShareUrl()"
                             :title="getSummary(true)"
                             :description="item.cont.review"
                             :quote="getQuote()"
                             :twitter-user="item.cont.nickname"
                             :media="getMedia()"
-                            v-cloak inline-template>
+                            v-cloak inline-template
+                    ref="social_sharing">
                     <dl class="share-box">
                         <dd>
-                            <network network="facebook" id="facebook">
-                                <i class="fa fa-fw fa-facebook"></i>
+                            <network network="facebook" id="facebook" >
+                                <i class="fa fa-fw fa-facebook" ></i>
                             </network>
                         </dd>
                         <dd>
@@ -103,7 +104,7 @@
     import Vue from 'vue'
     import vk from '../vk.js'
     import uri from '../uri.js'
-    var SocialSharing = require('vue-social-sharing');
+    import SocialSharing from 'vue-social-sharing';
     Vue.use(SocialSharing);
     export default {
         props:['item'],
@@ -114,6 +115,8 @@
                     page_url:"https://",
                 },
                 brand:"",
+                platform:"def",
+                isFacebook:true,
             }
         },
         methods: {
@@ -161,17 +164,43 @@
                     }
                 }
                 return vk.ls('share_img');
-            }
+            },
+            getItemShareUrl(platform='def'){
+                var url=this.item.cont.page_url;
+                var page_params=vk.ls(uri.LS_KEY.PAGE_PARAMS);
+                if(page_params.user_id && page_params.user_id_mask){
+                    
+                    var param=page_params.target_id+','+page_params.user_id
+                        +','+page_params.user_id_mask+','+platform;
+                    param=btoa(param).replace('/','_').replace('+','-');
+                    url=url.replace(/([\?&])?shxxare=[^&#]+/,'');
+                    if(url.indexOf('?')>-1){
+                        return url+='&shxxare='+ param;
+                    }
+                    return url+='?shxxare='+ param;
+                }
+                return url;
+            },
         },
         mounted() {
             this.share.page_url=this.item.cont.page_url;
-//            var str=btoa(this.item.cont.page_url);
-//            str=str.replace('/','_').replace('+','-');
-//            this.share.page_url=vk.cgi('b/'+str);
             //console.log('this.item',this.item);
             this.getScore=parseInt(this.item.score);
             var param=vk.ls(uri.LS_KEY.PAGE_PARAMS);
             this.brand=param.brand;
+            var that=this;
+            this.$root.$on('social_shares_open', function (network, url) {
+                // your event code
+                if(that.isFacebook){
+                    that.isFacebook=false;
+                    console.log(that.$refs.social_sharing.openSharer());
+                    that.$refs.social_sharing.url=that.getItemShareUrl(network);
+                    that.$refs.social_sharing.openSharer(network, that.$refs.social_sharing.createSharingUrl(network));
+                }
+            });
+            this.$root.$on('social_shares_change', function (network, url) {
+                that.isFacebook=true;
+            });
         }
     }
 </script>

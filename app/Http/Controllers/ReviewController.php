@@ -31,7 +31,7 @@ class ReviewController extends Controller
         $config=@json_decode($config,true);
         $app=$this->__getApp($config['appid']);//config('review.'.$config['appid']);
         $param=array_merge($app,$config);
-        unset($param['appkey']);
+        unset($param['appkey'],$param['api'],$param['apiPublicKey'],$param['apiSecretKey']);
         $data_json=json_encode($param);
         $data_json=strtr($data_json,array("'"=>"&#x27;"/*,"\\"=>"",'"'=>"&#x22;"*/));
         $data=['data'=>$param,'data_json'=>$data_json];

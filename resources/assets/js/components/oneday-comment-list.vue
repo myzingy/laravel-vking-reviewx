@@ -160,6 +160,10 @@
                     question_num:data.qcount,
                     review_num:data.count
                 };
+            },
+            shareCallback(){
+                console.log('shareCallback',this.param);
+                vk.http(uri.shareCallback,this.param,this.then);
             }
         },
         mounted() {
@@ -173,6 +177,7 @@
             setInterval(function(){
                 that.setIframeHeight();
             },3000);
+            this.shareCallback();
         }
     }
 </script>
