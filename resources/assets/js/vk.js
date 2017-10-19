@@ -99,7 +99,8 @@ let vk={
         return false;
     },
     ls:function(key,val=false,timeout=-1){
-        var old=window.localStorage.getItem(key);
+        //var old=window.localStorage.getItem(key);
+        var old=window.sessionStorage.getItem(key);
         var time=new Date().getTime();
         if(old){
             old=JSON.parse(old);
@@ -112,7 +113,8 @@ let vk={
         }
         if(val===false) return "";
         old={time:timeout==-1?-1:(time+timeout*1000),data:val};
-        window.localStorage.setItem(key,JSON.stringify(old));
+        //window.localStorage.setItem(key,JSON.stringify(old));
+        window.sessionStorage.setItem(key,JSON.stringify(old));
     },
     getArrObj2Arr:function(arr,key){
         var d=[];
