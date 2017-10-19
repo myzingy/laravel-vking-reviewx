@@ -163,7 +163,8 @@
             },
             shareCallback(){
                 console.log('shareCallback',this.param);
-                vk.http(uri.shareCallback,this.param,this.then);
+                if(this.param.page_url.indexOf('shxxare=')>-1)
+                    vk.http(uri.shareCallback,this.param,this.then);
             }
         },
         mounted() {
