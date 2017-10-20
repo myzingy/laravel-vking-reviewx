@@ -192,9 +192,11 @@
             this.$root.$on('social_shares_open', function (network, url) {
                 //console.log('popup.window.location.href',that.$refs.social_sharing.popup.window.location);
                 setTimeout(function(){
-                    that.$refs.social_sharing.url=that.getItemShareUrl(network);
-                    var share_url=that.$refs.social_sharing.createSharingUrl(network);
-                    that.$refs.social_sharing.popup.window.location.href= share_url;
+                    try{
+                        that.$refs.social_sharing.url=that.getItemShareUrl(network);
+                        var share_url=that.$refs.social_sharing.createSharingUrl(network);
+                        that.$refs.social_sharing.popup.window.location.href= share_url;
+                    }catch (e){}
                 },100);
             });
 //            this.$root.$on('social_shares_change', function (network, url) {
