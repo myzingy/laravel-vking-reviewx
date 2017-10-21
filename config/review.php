@@ -33,9 +33,9 @@ return [
         'domain'=>'https://www.jeulia.com',
         'brand'=>'Jeulia',
 
-        'api'=>'https://sandbox.jeulia.com/points/api/update',
-        'apiPublicKey'=>'sandbox888',
-        'apiSecretKey'=>'on6dxo7QDpZWM',
+        'api'=>'https://www.jeulia.com/points/api/update',
+        'apiPublicKey'=>'oneday2017US',
+        'apiSecretKey'=>'onIOhLr.AKEEk',
     ],
 
 ];
