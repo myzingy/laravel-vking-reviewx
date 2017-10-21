@@ -183,6 +183,7 @@
             },
         },
         mounted() {
+            this.item.cont.summary=this.item.cont.summary.trim();
             this.share.page_url=this.item.cont.page_url;
             //console.log('this.item',this.item);
             this.getScore=parseInt(this.item.score);
