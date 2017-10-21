@@ -6,6 +6,7 @@ use App\Review;
 use App\ReviewAttr;
 use App\ReviewContent;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Cache;
 
 class ReviewController extends Controller
 {
@@ -51,24 +52,42 @@ class ReviewController extends Controller
             $page_ids=[$this->__getPageId($data)];
         }
         if(count($page_ids)<1) return ['code'=>200,'data'=>[]];
-        $where=[
-            ['appid','=',$data['appid']],
-            ['status','=',Review::STATUS_SUCCESS],
-            ['type','=',Review::TYPE_REVIEW]
-        ];
-        $query=Review::select('page_id',\DB::raw('max(`target_id`) as `target_id`,max(`target_sku`) as target_sku,count(*) as `count`, avg(`score`) as `score`'));
-        $qdata=$query->where($where)
-            ->whereIn('page_id', $page_ids)
-            ->groupBy('page_id')
-            ->get();
-        if(count($page_ids)==1 && !empty($qdata[0])){
-            $qdata[0]['qcount']=Review::where(array(
+        if(count($page_ids)==1){
+            if(!$qdata=Cache::get($page_ids[0])) {
+                $where = [
+                    ['appid', '=', $data['appid']],
+                    ['status', '=', Review::STATUS_SUCCESS],
+                    ['type', '=', Review::TYPE_REVIEW]
+                ];
+                $query = Review::select('page_id', \DB::raw('max(`target_id`) as `target_id`,max(`target_sku`) as target_sku,count(*) as `count`, avg(`score`) as `score`'));
+                $qdata = $query->where($where)
+                    ->whereIn('page_id', $page_ids)
+                    ->groupBy('page_id')
+                    ->get();
+                if (!empty($qdata[0])) {
+                    $qdata[0]['qcount'] = Review::where(array(
+                        ['appid', '=', $data['appid']],
+                        ['status', '=', Review::STATUS_SUCCESS],
+                        ['type', '=', Review::TYPE_QUESTION]
+                    ))->whereIn('page_id', $page_ids)->count();
+                    Cache::forever($page_ids[0], $qdata);
+                }
+            }
+            $json=['code'=>200,'data'=>$qdata,'cache'=>\Cache::has($page_ids[0])];
+        }else{
+            $where=[
                 ['appid','=',$data['appid']],
                 ['status','=',Review::STATUS_SUCCESS],
-                ['type','=',Review::TYPE_QUESTION]
-            ))->whereIn('page_id', $page_ids)->count();
+                ['type','=',Review::TYPE_REVIEW]
+            ];
+            $query=Review::select('page_id',\DB::raw('max(`target_id`) as `target_id`,max(`target_sku`) as target_sku,count(*) as `count`, avg(`score`) as `score`'));
+            $qdata=$query->where($where)
+                ->whereIn('page_id', $page_ids)
+                ->groupBy('page_id')
+                ->get();
+            $json=['code'=>200,'data'=>$qdata];
         }
-        $json=['code'=>200,'data'=>$qdata];
+        
         if($callback=Input::get('callback')){
             die("$callback(".json_encode($json).");");
         }
@@ -114,6 +133,15 @@ class ReviewController extends Controller
     public function getReviews(){
         $data=Input::get();
         $page_id=$this->__getPageId($data);
+        $cache_key="";
+        if($data['offset']==0 && $data['order']=='is_attr' && $data['type']==Review::TYPE_REVIEW){
+            $cache_key=$page_id.'.first';
+            $res=Cache::get($cache_key);
+            if($res){
+                $res['cache']=true;
+                die(json_encode($res));
+            }
+        }
         $sortByDesc='created_at';
         $where=[
             ['appid','=',$data['appid']],
@@ -132,15 +160,18 @@ class ReviewController extends Controller
             ->offset($data['offset']+0)
             ->limit($limit)
             ->get();
-        $total=0;
-        if($data['offset']<$limit){
-            $total=Review::where($where)->count();
-        }
-        die(json_encode([
-            'total'=>$total,
+        $res=array(
+            'total'=>0,
             'data'=>$reviews,
-            'code'=>200,
-        ]));
+            'code'=>200
+        );
+        if($data['offset']<$limit){
+            $res['total']=Review::where($where)->count();
+        }
+        if($cache_key){
+            Cache::forever($cache_key,$res);
+        }
+        die(json_encode($res));
     }
     public function getMyReviews(){
         $data=Input::get();

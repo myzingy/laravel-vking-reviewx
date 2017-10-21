@@ -12,6 +12,7 @@ use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Cache;
 
 class ReviewController extends Controller
 {
@@ -232,6 +233,8 @@ class ReviewController extends Controller
 
             $form->hidden('type');
             $form->saved(function (Form $form) {
+                Cache::forget($form->model()->page_id);
+                Cache::forget($form->model()->page_id.'.first');
                 if($form->type==Review::TYPE_QUESTION && $form->cont['reply']){
                     $form->model()->status=Review::STATUS_SUCCESS;
                     $form->model()->save();
