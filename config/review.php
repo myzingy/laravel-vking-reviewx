@@ -28,5 +28,14 @@ return [
         'apiPublicKey'=>'sandbox888',
         'apiSecretKey'=>'on6dxo7QDpZWM',
     ],
+    'jeuliad635644d932612eb789d382c76'=>[
+        'appkey'=>'794d474f666b265dc7ec9e5c0c7d8703',
+        'domain'=>'https://www.jeulia.com',
+        'brand'=>'Jeulia',
+
+        'api'=>'https://sandbox.jeulia.com/points/api/update',
+        'apiPublicKey'=>'sandbox888',
+        'apiSecretKey'=>'on6dxo7QDpZWM',
+    ],
 
 ];
