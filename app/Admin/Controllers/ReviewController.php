@@ -118,7 +118,7 @@ class ReviewController extends Controller
             $grid->column('score','Score')->display(function () {
                 return $this->type==Review::TYPE_REVIEW?($this->score.'星'):"/";
             });
-            $grid->status('Status')->select(['已通过','待审核','垃圾评论'], $states);
+            $grid->status('Status')->select(['已通过','待审核','垃圾评论','不通过']);
             $grid->model()->orderBy('created_at','desc');
 
             // filter($callback)方法用来设置表格的简单搜索框
@@ -130,7 +130,7 @@ class ReviewController extends Controller
                 $filter->like('target_sku', 'SKU');
 
                 $filter->is('type', '评论/问题')->select([0=>'只看评论',1=>'只看问题']);
-                $filter->is('status', '状态')->select([0=>'已通过',1=>'待审核',2=>'垃圾评论']);
+                $filter->is('status', '状态')->select([0=>'已通过',1=>'待审核',2=>'垃圾评论',3=>'不通过']);
                 // 关系查询，查询对应关系`profile`的字段
                 $filter->where(function ($query) {
 
@@ -187,7 +187,7 @@ class ReviewController extends Controller
         return Admin::form(Review::class, function (Form $form) {
             $form->model()->with(['cont','attr']);
             $form->display('id', 'ID');
-            $form->select('status','Status')->options(['已通过','审核中','垃圾评论']);
+            $form->select('status','Status')->options(['已通过','审核中','垃圾评论','不通过']);
             $form->display('type','Type')->with(function ($type) {
                 return $type==Review::TYPE_REVIEW?'评论':'问题';
             });

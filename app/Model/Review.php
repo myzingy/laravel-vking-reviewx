@@ -9,9 +9,10 @@ class Review extends Model
     const TYPE_REVIEW=0;
     const TYPE_QUESTION=1;
 
-    const STATUS_SUCCESS=0;
-    const STATUS_WAIT=1;
-    const STATUS_FAIL=2;
+    const STATUS_SUCCESS=0;     //通过
+    const STATUS_WAIT=1;        //待审核
+    const STATUS_FAIL=2;        //垃圾评论
+    const STATUS_NOSUCCESS=3;   //不通过
 
     const IS_ATTR_NULL=0;
     const IS_ATTR_HAVING=1;
