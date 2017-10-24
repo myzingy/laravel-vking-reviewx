@@ -171,9 +171,6 @@ class ReviewController extends Controller
         if($cache_key){
             Cache::forever($cache_key,$res);
         }
-        header('Access-Control-Allow-Origin: http://www.jeulia.com');
-        header('Access-Control-Allow-Origin: https://www.jeulia.com');
-        header('Vary: Origin');
         die(json_encode($res));
     }
     public function getMyReviews(){
