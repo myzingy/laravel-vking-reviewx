@@ -19,4 +19,6 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     Header always unset X-Frame-Options
+    Header set Access-Control-Allow-Origin "http://www.jeulia.com,https://www.jeulia.com"
+    Header set Vary "Origin"
 </IfModule>
