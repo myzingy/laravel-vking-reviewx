@@ -13,6 +13,10 @@ return [
         'appkey'=>'912f5dc5b7fbce3076272a5cbe685591',
         'domain'=>'https://sandbox.amarley.com',
         'brand'=>'Sandbox-Amarley',
+
+        'api'=>'https://sandbox.amarley/points/api/update',
+        'apiPublicKey'=>'amarley888',
+        'apiSecretKey'=>'kadipRXR2iYHo',
     ],
     '49626cb84d647d4075d5ebe8da4b4com'=>[
         'appkey'=>'912f5dc5b7famarley272a5cbe685591',
