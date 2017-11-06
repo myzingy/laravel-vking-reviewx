@@ -96,7 +96,8 @@ class ReviewController extends Controller
                 global $conf;
                 return $conf[$this->appid]['brand'];
             });
-            $grid->created_at();
+            //$grid->created_at();
+            $grid->created_at()->editable('datetime');
             //$grid->status('Status');
             // 设置text、color、和存储值
             $states = [
@@ -210,8 +211,10 @@ class ReviewController extends Controller
                     )
                     .'</span>';
             });
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->datetime('created_at', 'Created At')->format('YYYY-MM-DD HH:mm:ss');
+            $form->datetime('updated_at', 'Updated At')->format('YYYY-MM-DD HH:mm:ss');
+            //$form->display('created_at', 'Created At');
+            //$form->display('updated_at', 'Updated At');
             $form->display('Images')->with(function () {
                 if($this->is_attr!=Review::IS_ATTR_HAVING) return "";
                 $attr='<div>';
