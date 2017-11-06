@@ -41,12 +41,14 @@ class ReviewController extends Controller
     public function getTotal(){
         $data=Input::get();
         $page_ids=[];
-        if($data['target_ids']){
+        if(!empty($data['target_ids'])){
             if(is_string($data['target_ids'])){
                 $data['target_ids']=explode(',',$data['target_ids']);
             }
-            foreach ($data['target_ids'] as $target_id){
-                array_push($page_ids,$this->__getPageId(['target_id'=>$target_id,'appid'=>$data['appid']]));
+            if($data['target_ids']){
+                foreach ($data['target_ids'] as $target_id){
+                    array_push($page_ids,$this->__getPageId(['target_id'=>$target_id,'appid'=>$data['appid']]));
+                }
             }
         }else{
             $page_ids=[$this->__getPageId($data)];
