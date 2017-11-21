@@ -14,7 +14,8 @@
         "laravel/tinker": "~1.0",
         "matriphe/imageupload": "^6.1",
         "watson/validating": "^3.0",
-        "zizaco/entrust": "^1.8"
+        "zizaco/entrust": "^1.8",
+        "predis/predis": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
