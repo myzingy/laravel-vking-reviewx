@@ -17,7 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-#Route::any('/getReviewTotal', 'ReviewController@getTotal');
-Route::group(['prefix'=>'api','middleware'=>'throttle:1000,1'],function(){
-    Route::any('/getReviewTotal', 'ReviewController@getTotal');
-});
+Route::any('/getReviewTotal', 'ReviewController@getTotal');
