@@ -17,4 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any('/getReviewTotal', 'ReviewController@getTotal');
+Route::any('/getReviewTotal', 'ReviewController@getTotal')
+    ->middleware('throttle:1000,1');
