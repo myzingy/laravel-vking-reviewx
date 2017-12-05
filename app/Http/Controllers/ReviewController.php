@@ -73,6 +73,16 @@ class ReviewController extends Controller
                         ['type', '=', Review::TYPE_QUESTION]
                     ))->whereIn('page_id', $page_ids)->count();
                     Cache::forever($page_ids[0], $qdata);
+                }else{
+                    $qdata=[
+                        'count'=>0,
+                        'page_id'=>$page_ids[0],
+                        'qcount'=>0,
+                        'score'=>0,
+                        'target_id'=>$data['target_ids'],
+                        'target_sku'=>$data['target_sku'],
+                    ];
+                    Cache::forever($page_ids[0],$qdata);
                 }
             }
             $json=['code'=>200,'data'=>$qdata,'cache'=>\Cache::has($page_ids[0])];
