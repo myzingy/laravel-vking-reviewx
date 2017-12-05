@@ -79,7 +79,7 @@ class ReviewController extends Controller
                         'page_id'=>$page_ids[0],
                         'qcount'=>0,
                         'score'=>0,
-                        'target_id'=>$data['target_ids'],
+                        'target_id'=>$data['target_id'],
                         'target_sku'=>$data['target_sku'],
                     ];
                     Cache::forever($page_ids[0],$qdata);
