@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Review;
 use App\ReviewAttr;
 use App\ReviewContent;
+use Aws\DynamoDb\DynamoDbClient;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Cache;
 
@@ -73,6 +74,7 @@ class ReviewController extends Controller
                         ['type', '=', Review::TYPE_QUESTION]
                     ))->whereIn('page_id', $page_ids)->count();
                     Cache::forever($page_ids[0], $qdata);
+                    $this->awsCache($data['target_sku'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
                 }else{
                     $qdata=[
                         'count'=>0,
@@ -83,6 +85,7 @@ class ReviewController extends Controller
                         'target_sku'=>empty($data['target_sku'])?'':$data['target_sku'],
                     ];
                     Cache::forever($page_ids[0],$qdata);
+                    $this->awsCache($data['target_sku'],$qdata['score'],$qdata['qcount'],$data['appid']);
                 }
             }
             $json=['code'=>200,'data'=>$qdata,'cache'=>\Cache::has($page_ids[0])];
@@ -242,5 +245,30 @@ class ReviewController extends Controller
     function code(){
         header("Location: ".mix('js/iframe.js'));
         exit;
+    }
+    function awsCache($spu,$rating,$total,$appid){
+        $app=$this->__getApp($appid);
+        if(empty($app['awsTableName'])) return;
+        $client = new DynamoDbClient([
+            'region'  => 'us-east-1',
+            'version' => 'latest',
+            'http'    => [
+                'verify' => false
+            ],
+            'credentials' => [
+                'key'    => 'AKIAIBSY2WW7ZAEZWM7Q',
+                'secret' => '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'
+            ]
+        ]);
+
+        $command = [
+            'TableName'=>$app['awsTableName'],
+            'Item'=>[
+                'spu'=>['S'=>$spu],
+                'rating'=>['N'=>($rating*20).""],
+                'num'=>['N'=>$total.""]
+            ]
+        ];
+        $client->putItem($command);
     }
 }
