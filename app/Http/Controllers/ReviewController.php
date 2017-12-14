@@ -74,7 +74,9 @@ class ReviewController extends Controller
                         ['type', '=', Review::TYPE_QUESTION]
                     ))->whereIn('page_id', $page_ids)->count();
                     Cache::forever($page_ids[0], $qdata);
-                    $this->awsCache($data['target_sku'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
+                    if(!empty($data['target_sku'])){
+                        $this->awsCache($data['target_sku'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
+                    }
                 }else{
                     $qdata=[
                         'count'=>0,
@@ -85,7 +87,9 @@ class ReviewController extends Controller
                         'target_sku'=>empty($data['target_sku'])?'':$data['target_sku'],
                     ];
                     Cache::forever($page_ids[0],$qdata);
-                    $this->awsCache($data['target_sku'],$qdata['score'],$qdata['qcount'],$data['appid']);
+                    if(!empty($data['target_sku'])) {
+                        $this->awsCache($data['target_sku'], $qdata['score'], $qdata['qcount'], $data['appid']);
+                    }
                 }
             }
             $json=['code'=>200,'data'=>$qdata,'cache'=>\Cache::has($page_ids[0])];
@@ -222,8 +226,8 @@ class ReviewController extends Controller
     function __getPageId($data,$appid=""){
         if(!empty($data['page_id'])) return md5($data['page_id']);
         $appid=$appid?$appid:$data['appid'];
-        if($data['target_id']) return md5($appid.$data['target_id']);
-        if($data['target_sku']) return md5($appid.$data['target_sku']);
+        if(!empty($data['target_id'])) return md5($appid.$data['target_id']);
+        if(!empty($data['target_sku'])) return md5($appid.$data['target_sku']);
         $page=$data['page_url'];
         return md5($page);
     }
