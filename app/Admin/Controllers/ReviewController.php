@@ -251,7 +251,7 @@ class ReviewController extends Controller
                         'customer_id'=>$entity_id,
                         'platform'=>\App\Model\Points::PLARFORM_REVIEW
                     ));
-                    if(!$isEmpty) return;
+                    if(!$isEmpty || empty($app['api'])) return;
                     $res=\App\lib::points(array(
                         'api'=>$app['api'],
                         'apiPublicKey'=>$app['apiPublicKey'],
