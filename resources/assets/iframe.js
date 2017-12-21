@@ -1,7 +1,7 @@
 /**
  * Created by vking on 2017/9/8.
  */
-(function($){
+(function(){
     var base_url='https://review.bizseas.com/';
     if(!(process.env.NODE_ENV === 'production')){
         base_url="https://laravel.vking/";
@@ -70,6 +70,7 @@
             }
         }
     }
+
     if(typeof jQuery=='undefined'){
         //https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js
         console.log('jquery is undefined!!!');
@@ -77,10 +78,12 @@
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
-            js.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js";
+            //js.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js";
+            js.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'oneday-review-jssdk'));
     }
+
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -89,13 +92,17 @@
         js.rel='stylesheet';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'link', 'oneday-viewer-css'));
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'oneday-viewer-jssdk'));
+    if(typeof window.hasViewer=='undefined') {
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://cdnjs.cloudflare.com/ajax/libs/viewerjs/0.7.2/viewer.min.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'oneday-viewer-jssdk'));
+    }
+    
     window.onedayReview=function(fun){
         if(typeof jQuery=='undefined') {
             console.log('jquery on loading...');

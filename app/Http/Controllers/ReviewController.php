@@ -179,6 +179,9 @@ class ReviewController extends Controller
             ->offset($data['offset']+0)
             ->limit($limit)
             ->get();
+        foreach ($reviews as &$x){
+            $x['score']+=0;
+        }
         $res=array(
             'total'=>0,
             'data'=>$reviews,

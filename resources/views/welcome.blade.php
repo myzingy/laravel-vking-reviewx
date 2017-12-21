@@ -102,8 +102,8 @@
             user_id_mask:"{{$user_id_mask}}",
             user_name:"user_name",
             user_email:"user@email.com",
-            //target_id:"target_id",
-            //target_sku:"target_sku",
+            target_id:"target_id",
+            target_sku:"target_sku",
             view:"",
         };
         (function() { // DON'T EDIT BELOW THIS LINE
