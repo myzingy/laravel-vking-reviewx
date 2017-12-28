@@ -21,7 +21,7 @@ return [
    *
    * Default: public/uploads/images
    */
-  'path' => public_path('uploads/images'),
+  'path' => public_path('uploads/images/'.date('Ymd',time())),
 
   /*
     * Use original name. If set to false, will use hashed name.
@@ -33,7 +33,7 @@ return [
     *     - timestamp: use uploaded timestamp as filename
     *     - custom: user must provide new name, if not will use original filename
     */
-  'newfilename' => env('IMAGEUPLOAD_NEWFILENAME', 'original'),
+  'newfilename' => env('IMAGEUPLOAD_NEWFILENAME', 'hash'),
 
   /*
    * Sizes, used to crop and create multiple size.
