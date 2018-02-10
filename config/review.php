@@ -42,6 +42,8 @@ return [
         'api'=>'https://www.jeulia.com/points/api/update',
         'apiPublicKey'=>'oneday2017US',
         'apiSecretKey'=>'onIOhLr.AKEEk',
+
+        'awsTableName'=>'jeulia_review',
     ],
     '26cb84d647d4075d5ebe8dajeulia200'=>[
         'appkey'=>'912f5dc5b7fbce3076272a5cbejeulia',
