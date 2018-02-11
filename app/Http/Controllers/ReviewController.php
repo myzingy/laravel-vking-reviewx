@@ -29,8 +29,11 @@ class ReviewController extends Controller
     public function index($config)
     {
         $config=strtr($config,array('-'=>'+','_'=>'/'));
-        $config=@base64_decode($config);
-        $config=@json_decode($config,true);
+        $config_jsonstr=@base64_decode($config);
+        $config=@json_decode($config_jsonstr,true);
+        if(!$config){
+            $config=$this->formatJson($config_jsonstr);
+        }
         $app=$this->__getApp($config['appid']);//config('review.'.$config['appid']);
         $param=array_merge($app,$config);
         unset($param['appkey'],$param['api'],$param['apiPublicKey'],$param['apiSecretKey']);
@@ -38,6 +41,30 @@ class ReviewController extends Controller
         $data_json=strtr($data_json,array("'"=>"&#x27;"/*,"\\"=>"",'"'=>"&#x22;"*/));
         $data=['data'=>$param,'data_json'=>$data_json];
         return view('iframe',$data);
+    }
+    private function formatJson($config_jsonstr){
+        $config=[
+            'dom_id'=>'',
+            'appid'=>'',
+            'page_id'=>'',
+            'page_url'=>'',
+            'page_title'=>'',
+            'user_id'=>'',
+            'user_id_mask'=>'',
+            'user_name'=>'',
+            'user_email'=>'',
+            'target_id'=>'',
+            'target_sku'=>'',
+            'target_ids'=>'',
+            'view'=>'',
+        ];
+        foreach ($config as $key=>$val){
+            $flag=preg_match("/\"$key\":\"([^\"]+)\"/",$config_jsonstr,$match);
+            if($flag){
+                $config[$key]=$match[1];
+            }
+        }
+        return $config;
     }
     public function getTotal(){
         $data=Input::get();
