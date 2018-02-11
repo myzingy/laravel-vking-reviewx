@@ -61,7 +61,7 @@ class ReviewController extends Controller
         foreach ($config as $key=>$val){
             $flag=preg_match("/\"$key\":\"([^\"]+)\"/",$config_jsonstr,$match);
             if($flag){
-                $config[$key]=$match[1];
+                $config[$key]=preg_replace("/[^\da-z #:\/\.\-_]/i","",$match[1]);
             }
         }
         return $config;
