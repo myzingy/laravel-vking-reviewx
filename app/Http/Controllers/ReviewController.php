@@ -101,6 +101,9 @@ class ReviewController extends Controller
                         ['type', '=', Review::TYPE_QUESTION]
                     ))->whereIn('page_id', $page_ids)->count();
                     Cache::forever($page_ids[0], $qdata);
+                    if(!empty($data['target_id'])){
+                        $this->awsCache($data['target_id'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
+                    }
                 }else{
                     $qdata=[
                         'count'=>0,
@@ -111,10 +114,10 @@ class ReviewController extends Controller
                         'target_sku'=>empty($data['target_sku'])?'':$data['target_sku'],
                     ];
                     Cache::forever($page_ids[0],$qdata);
+                    if(!empty($data['target_id'])){
+                        $this->awsCache($data['target_id'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
+                    }
                 }
-            }
-            if(!empty($data['target_id'])){
-                $this->awsCache($data['target_id'],$qdata[0]['score'],$qdata[0]['count'],$data['appid']);
             }
             $json=['code'=>200,'data'=>$qdata,'cache'=>\Cache::has($page_ids[0])];
         }else{
