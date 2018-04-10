@@ -1,29 +1,30 @@
 <?php
-define('HOST','sandbox.cy0skyqn8utv.us-east-1.rds.amazonaws.com');
+define('HOST','127.0.0.1');
 define('PORT','3306');
-define('USER','admin');
-define('PASS','oneday2017$$');
-define('DBNAME','jeulia_com_test');
+define('USER','root');
+define('PASS','');
+define('DBNAME','amarley');
 define('SQL','./var/cache/jqulia.review.sql');
 ##########################
-$APPID='jeuliad635644d932612eb789d382c76';
+$APPID='vkingxd635644d932612eb789d382c76';
 $START_ID=20000;
-$URI='https://www.jeulia.com/';
-$IMGURI='https://res.jeulia.com/';
+$URI='https://www.vkingx.com/';
+$IMGURI='https://res.vkingx.com/';
 ##########################
 $offset=$_GET['offset']+0;
 $limit=100;
 /////////////////////////////////////////////////////
 
-$db=mysql_connect(HOST.':'.PORT,USER,PASS);
+$db=mysqli_connect(HOST,USER,PASS,DBNAME,PORT);
 if(!$db){
-    echo "mysql Debugging errno: " . mysql_errno() . PHP_EOL;
-    echo "mysql Debugging error: " . mysql_error() . PHP_EOL;
-    die('db fi!');
+    echo "<div>Error: Unable to connect to MySQL." . PHP_EOL;
+    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+    echo "</div>";
+    exit;
 }
-mysql_select_db(DBNAME,$db);
-mysql_query('SET NAMES utf8',$db);
-mysql_query("SET sql_mode='NO_UNSIGNED_SUBTRACTION'",$db);
+mysqli_query($db,'SET NAMES utf8');
+mysqli_query($db,"SET sql_mode='NO_UNSIGNED_SUBTRACTION'");
 #reviews
 $sql=<<<END
 SELECT R.review_id+$START_ID AS id,
@@ -45,16 +46,17 @@ LEFT JOIN `rating_option_vote` RV ON  R.`review_id`=RV.`review_id`
 ORDER BY R.`review_id` ASC
 LIMIT $offset,$limit
 END;
-$query=mysql_query($sql,$db);
-$rows=mysql_num_rows($query);
+$query=mysqli_query($db,$sql);
+$rows=mysqli_num_rows($query);
 if($rows>0){
     $delete_ids=[];
     $insert_sql="INSERT INTO `reviews` (`id`,`page_id`,`appid`,`target_id`,`target_sku`,`entity_id`,`type`,`status`,`score`,`is_attr`,`created_at`,`updated_at`) VALUES \n"; ;
-    while  ($r = mysql_fetch_array($query, MYSQL_ASSOC)){
+    while  ($r = mysqli_fetch_array($query, MYSQLI_ASSOC)){
         $sub_sql="('".implode("','",$r)."'),\n";
         $insert_sql.=$sub_sql;
         array_push($delete_ids,$r['id']);
     }
+    mysqli_free_result($query);
     $delete_sql= "DELETE FROM `reviews` WHERE `id` IN (".implode(',',$delete_ids).");\n"
         ."DELETE FROM `reviews_content` WHERE `review_id` IN (".implode(',',$delete_ids).");\n"
         ."DELETE FROM `reviews_attr` WHERE `review_id` IN (".implode(',',$delete_ids).");\n";
@@ -101,7 +103,8 @@ LEFT JOIN `catalog_product_entity_varchar` CPV2 ON CPV2.`entity_id`=R.`entity_pk
 WHERE R.review_id+$START_ID IN ($ids)
 GROUP BY R.review_id;
 END;
-    $query=mysql_query($sql,$db);
+    echo $sql;
+    $query=mysqli_query($db,$sql);
     //$rows=mysql_num_rows($query);
     $insert_sql=<<<END
 INSERT INTO `reviews_content` (
@@ -119,7 +122,7 @@ INSERT INTO `reviews_content` (
 VALUES
 END;
 
-    while  ($r = mysql_fetch_array($query, MYSQL_ASSOC)){
+    while  ($r = mysqli_fetch_array($query, MYSQLI_ASSOC)){
         array_walk($r,"sqlsafe");
         setReviewImages($r['review_images']);
         getInnerImages($r);
@@ -127,6 +130,7 @@ END;
         $sub_sql="('".implode("','",$r)."'),\n";
         $insert_sql.=$sub_sql;
     }
+    mysqli_free_result($query);
     $insert_sql=substr($insert_sql,0,-2).";\n";
     return $insert_sql;
 

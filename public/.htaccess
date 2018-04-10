@@ -20,7 +20,7 @@
 
     Header always unset X-Frame-Options
     Header set Access-Control-Allow-Origin "*"
-    #Header add Access-Control-Allow-Origin "http://www.jeulia.com"
-    #Header add Access-Control-Allow-Origin "https://www.jeulia.com"
+    #Header add Access-Control-Allow-Origin "http://www.vkingx.com"
+    #Header add Access-Control-Allow-Origin "https://www.vkingx.com"
     Header set Vary "Origin"
 </IfModule>
